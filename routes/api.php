@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('places', 'PlaceController');
+Route::get('places', 'PlaceController@index');
+Route::get('places/{id}', 'PlaceController@show');
+Route::post('places', 'PlaceController@store');
+Route::put('places/{id}', 'PlaceController@update');
+Route::patch('places/{id}', 'PlaceController@update');
+Route::delete('places/{id}', 'PlaceController@delete');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});

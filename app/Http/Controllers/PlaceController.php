@@ -14,28 +14,26 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
+        return Place::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
+    /** 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|min:3|max:100',
+            'description' => 'required|string|min:3|max:500',
+            'coordinates' => 'required|string|min:3|max:255',
+            'hours' => 'required|string|min:3|max:255',
+        ]);
+
+        $place = Place::create($validated);
     }
 
     /**
@@ -46,18 +44,7 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Place  $place
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Place $place)
-    {
-        //
+        return $place;
     }
 
     /**
@@ -67,9 +54,20 @@ class PlaceController extends Controller
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Place $place)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|min:3|max:100',
+            'description' => 'required|string|min:3|max:500',
+            'coordinates' => 'required|string|min:3|max:255',
+            'hours' => 'required|string|min:3|max:255',
+        ]);
+
+        $place = Place::findOrFail($id);
+
+        $place->update($validated);
+
+        return response()->json($place, 200);
     }
 
     /**
@@ -80,6 +78,8 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
-        //
+        $place->delete();
+
+        return 204;
     }
 }
