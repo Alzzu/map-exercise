@@ -26,6 +26,7 @@ class PlaceController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'title' => 'required|string|min:3|max:100',
             'description' => 'required|string|min:3|max:500',
@@ -34,6 +35,7 @@ class PlaceController extends Controller
         ]);
 
         $place = Place::create($validated);
+        return response()->json($place, 200);
     }
 
     /**

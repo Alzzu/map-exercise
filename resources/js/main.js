@@ -32,3 +32,24 @@ export const getPlaces = async () => {
     })
     
 }
+
+export const postPlace = async (data) => {
+    return new Promise((resolve, reject) => {
+        const postPlaceRequest = new XMLHttpRequest();
+        postPlaceRequest.open('POST', 'api/places');
+        postPlaceRequest.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'))
+        postPlaceRequest.setRequestHeader('Content-Type', 'application/json');
+        postPlaceRequest.onload = () => {
+            if(postPlaceRequest.status === 200) {
+                console.log(postPlaceRequest.statusText)
+                resolve(true) 
+            }
+            else {
+                console.log(postPlaceRequest.status)
+                reject(false)
+                
+            }
+        };
+        postPlaceRequest.send(JSON.stringify(data));
+    })
+}
