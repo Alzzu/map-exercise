@@ -9,34 +9,7 @@
 
     <script src="{{ URL::asset('js/modal.js')}}"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('APP_MAPSAPIKEY') }}" type="text/javascript"></script>
-    <style>
-        html {
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        #map {
-            height: 30em;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background: rgba(150, 150, 150, 0.5);
-        }
-
-        .modal-content {
-            margin: 15% auto;
-            padding: 1em;
-            width: 80%;
-            background: #000;
-        }
-    </style>
+<link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 
 </head>
 <body>
