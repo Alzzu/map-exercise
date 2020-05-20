@@ -1,5 +1,5 @@
 import { initMap, refreshMarkers } from "./maps.js";
-import { getPlaces, postPlace, getPlace } from "./main.js";
+import { getPlaces, postPlace, getPlace, updatePlace } from "./main.js";
 
 let marker = "";
 const addModal = document.querySelector(".modal");
@@ -67,6 +67,19 @@ const app = async () => {
                     console.log("failure");
                 }
             } else if (method === "edit") {
+                const id = document
+                    .querySelector(".addModal")
+                    .getAttribute("data-id");
+
+                if (await updatePlace(id, values)) {
+                    toggleAddModal();
+
+                    const places = await getPlaces();
+                    refreshMarkers(places);
+                } else {
+                    console.log("failure to update");
+                }
+
                 console.log("edit");
             }
         });

@@ -30,7 +30,8 @@ const addMarker = (location, map, places) => {
             "</div><div>" +
             place.hours +
             "</div><button class='editButton'>Edit</button>";
-        console.log(marker);
+
+        document.querySelector(".addModal").setAttribute("data-id", place.id);
 
         document.querySelector(".editButton").addEventListener("click", () => {
             document
