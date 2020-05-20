@@ -909,43 +909,64 @@ var app = /*#__PURE__*/function () {
                 position: e.latLng,
                 map: map
               });
+              document.querySelector(".addModal").setAttribute("data-method", "add");
+              var fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
+              fields[0].value = "";
+              fields[1].value = "";
+              fields[3].value = "";
               toggleAddModal();
               var coordinatesField = document.querySelector('input[name="coordinates"]').value = latLng;
             });
             document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
               var _values;
 
-              var fields, values, places;
+              var fields, values, method, places;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
                       fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                       values = (_values = {}, _defineProperty(_values, fields[0].name, fields[0].value), _defineProperty(_values, fields[1].name, fields[1].value), _defineProperty(_values, fields[2].name, fields[2].value), _defineProperty(_values, fields[3].name, fields[3].value), _values);
-                      _context2.next = 4;
+                      method = document.querySelector(".addModal").getAttribute("data-method");
+
+                      if (!(method === "add")) {
+                        _context2.next = 18;
+                        break;
+                      }
+
+                      _context2.next = 6;
                       return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values);
 
-                    case 4:
+                    case 6:
                       if (!_context2.sent) {
-                        _context2.next = 13;
+                        _context2.next = 15;
                         break;
                       }
 
                       toggleAddModal();
                       if (marker != "") marker.setMap(null);
-                      _context2.next = 9;
+                      _context2.next = 11;
                       return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
-                    case 9:
+                    case 11:
                       places = _context2.sent;
                       Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-                      _context2.next = 14;
+                      _context2.next = 16;
                       break;
 
-                    case 13:
+                    case 15:
                       console.log("failure");
 
-                    case 14:
+                    case 16:
+                      _context2.next = 19;
+                      break;
+
+                    case 18:
+                      if (method === "edit") {
+                        console.log("edit");
+                      }
+
+                    case 19:
                     case "end":
                       return _context2.stop();
                   }
@@ -1152,8 +1173,17 @@ var addMarker = function addMarker(location, map, places) {
     var place = places.find(function (place) {
       return place.id == marker.label;
     });
-    document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + place.description + "</div><div>" + place.hours + "</div>";
+    document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + place.description + "</div><div>" + place.hours + "</div><button class='editButton'>Edit</button>";
     console.log(marker);
+    document.querySelector(".editButton").addEventListener("click", function () {
+      document.querySelector(".addModal").setAttribute("data-method", "edit");
+      toggleAddModal();
+      var fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
+      fields[0].value = place.title;
+      fields[1].value = place.description;
+      fields[2].value = place.coordinates;
+      fields[3].value = place.hours;
+    });
   });
   markers.push(marker);
 };

@@ -22,6 +22,14 @@ const app = async () => {
             position: e.latLng,
             map: map
         });
+        document.querySelector(".addModal").setAttribute("data-method", "add");
+        const fields = document.querySelectorAll(
+            "div.addModal > div.modal-content > .item > input"
+        );
+
+        fields[0].value = "";
+        fields[1].value = "";
+        fields[3].value = "";
 
         toggleAddModal();
 
@@ -44,14 +52,22 @@ const app = async () => {
                 [fields[3].name]: fields[3].value
             };
 
-            if (await postPlace(values)) {
-                toggleAddModal();
+            const method = document
+                .querySelector(".addModal")
+                .getAttribute("data-method");
 
-                if (marker != "") marker.setMap(null);
-                const places = await getPlaces();
-                refreshMarkers(places);
-            } else {
-                console.log("failure");
+            if (method === "add") {
+                if (await postPlace(values)) {
+                    toggleAddModal();
+
+                    if (marker != "") marker.setMap(null);
+                    const places = await getPlaces();
+                    refreshMarkers(places);
+                } else {
+                    console.log("failure");
+                }
+            } else if (method === "edit") {
+                console.log("edit");
             }
         });
 };

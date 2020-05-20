@@ -26,7 +26,7 @@
             </div>
         </div>
     
-        <div class="addModal modal" style="display: none;">
+        <div class="addModal modal" style="display: none;" data-method="">
             <div class="modal-content">
                 <div class="item">
                     <label for="title">Title</label>

@@ -29,8 +29,25 @@ const addMarker = (location, map, places) => {
             place.description +
             "</div><div>" +
             place.hours +
-            "</div>";
+            "</div><button class='editButton'>Edit</button>";
         console.log(marker);
+
+        document.querySelector(".editButton").addEventListener("click", () => {
+            document
+                .querySelector(".addModal")
+                .setAttribute("data-method", "edit");
+
+            toggleAddModal();
+
+            const fields = document.querySelectorAll(
+                "div.addModal > div.modal-content > .item > input"
+            );
+
+            fields[0].value = place.title;
+            fields[1].value = place.description;
+            fields[2].value = place.coordinates;
+            fields[3].value = place.hours;
+        });
     });
 
     markers.push(marker);
