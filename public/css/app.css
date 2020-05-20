@@ -2,6 +2,11 @@ html {
   font-family: "Open Sans", sans-serif;
 }
 
+html body {
+  padding: 0;
+  margin: 0;
+}
+
 #map {
   height: 30em;
 }
@@ -19,9 +24,51 @@ html {
 }
 
 .modal .modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin: 15% auto;
   padding: 1em;
   width: 80%;
-  background: #000;
+  background: #fff;
+  border-radius: 1em;
+}
+
+.modal .modal-content .item {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5em;
+}
+
+.modal .modal-content .item label {
+  display: block;
+}
+
+.modal .modal-content .item input {
+  display: block;
+}
+
+.modal .modal-content .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.modal .modal-content .controls button {
+  margin: 1em;
+  font-size: 1em;
+  width: 5em;
+}
+
+button.send-button {
+  background: #00b80f;
+  border: none;
+  border-radius: 0.5em;
+  color: #fff;
+  margin: 1em;
+  padding: 0.1em;
+  font-size: 1em;
+  width: 5em;
 }
 

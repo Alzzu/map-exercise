@@ -34,7 +34,7 @@ const app = async () => {
         .querySelector("button.addSubmit")
         .addEventListener("click", async () => {
             const fields = document.querySelectorAll(
-                "div.addModal > div.modal-content > input"
+                "div.addModal > div.modal-content > .item > input"
             );
 
             const values = {

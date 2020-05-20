@@ -1,5 +1,10 @@
 html {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
+
+    body {
+        padding: 0;
+        margin: 0;
+    }
 }
 
 #map {
@@ -16,12 +21,53 @@ html {
     height: 100%;
     overflow: auto;
     background: rgba(150, 150, 150, 0.5);
-    
+
     .modal-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
         margin: 15% auto;
         padding: 1em;
         width: 80%;
-        background: #000;
+        background: #fff;
+        border-radius: 1em;
+
+        .item {
+            display: block;
+            margin: 0 auto;
+            padding: 0.5em;
+
+            label {
+                display: block;
+            }
+            input {
+                display: block;
+            }
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            button {
+                margin: 1em;
+                font-size: 1em;
+                width: 5em;
+            }
+        }
     }
 }
 
+button.send-button {
+    background: rgb(0, 184, 15);
+    border: none;
+    border-radius: 0.5em;
+    color: #fff;
+
+    margin: 1em;
+    padding: 0.1em;
+    font-size: 1em;
+    width: 5em;
+}

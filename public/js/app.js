@@ -920,7 +920,7 @@ var app = /*#__PURE__*/function () {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      fields = document.querySelectorAll("div.addModal > div.modal-content > input");
+                      fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                       values = (_values = {}, _defineProperty(_values, fields[0].name, fields[0].value), _defineProperty(_values, fields[1].name, fields[1].value), _defineProperty(_values, fields[2].name, fields[2].value), _defineProperty(_values, fields[3].name, fields[3].value), _values);
 
                       if (!Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values)) {

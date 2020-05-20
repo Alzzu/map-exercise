@@ -15,24 +15,41 @@
 </head>
 <body>
     <div id="map"></div>
-    <ul id="list"></ul>
-    <button onclick="window.toggleAddModal()">Test modal</button>
-    <button class="testbutton">test button</button>
-
-    <div class="modal" style="display: none;">
-        <div class="modal-content">
-            <button onclick="toggleModal()">close</button>
+    <div>
+        <ul id="list"></ul>
+        <button onclick="window.toggleAddModal()">Test modal</button>
+        <button class="testbutton">test button</button>
+    
+        <div class="modal" style="display: none;">
+            <div class="modal-content">
+                <button onclick="toggleModal()">close</button>
+            </div>
         </div>
-    </div>
+    
+        <div class="addModal modal" style="display: none;">
+            <div class="modal-content">
+                <div class="item">
+                    <label for="title">Title</label>
+                    <input type="text" name="title">
+                </div>
+                <div class="item">
+                    <label for="description">Description</label>
+                    <input type="text" name="description">
+                </div>
+                <div class="item">
+                    <label for="coordinates">Coodinates</label>
+                    <input type="text" name="coordinates">
+                </div>
+                <div class="item">
+                    <label for="hours">Open hours</label>
+                    <input type="text" name="hours">
+                </div>
 
-    <div class="addModal modal" style="display: none;">
-        <div class="modal-content">
-            <input type="text" name="title">
-            <input type="text" name="description">
-            <input type="text" name="coordinates">
-            <input type="text" name="hours">
-            <button class="addSubmit">Submit</button>
-            <button onclick="toggleAddModal()">close</button>
+                <div class="controls">
+                    <button class="addSubmit send-button">Submit</button>
+                    <button onclick="toggleAddModal()">close</button>
+                </div>
+            </div>
         </div>
     </div>
     <script type="module" src="{{ URL::asset('js/app.js')}}"></script>
