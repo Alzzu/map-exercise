@@ -863,7 +863,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var marker = "";
-var addModal = document.querySelector('.modal');
+var addModal = document.querySelector(".modal");
 
 var app = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -882,7 +882,7 @@ var app = /*#__PURE__*/function () {
 
           case 5:
             map = _context3.sent;
-            document.querySelector('.testbutton').addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+            document.querySelector(".testbutton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
               var places;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                 while (1) {
@@ -902,9 +902,8 @@ var app = /*#__PURE__*/function () {
                 }
               }, _callee);
             })));
-            google.maps.event.addListener(map, 'click', function (e) {
+            google.maps.event.addListener(map, "click", function (e) {
               var latLng = e.latLng.lat() + ", " + e.latLng.lng();
-              console.log(latLng);
               if (marker != "") marker.setMap(null);
               marker = new google.maps.Marker({
                 position: e.latLng,
@@ -913,35 +912,53 @@ var app = /*#__PURE__*/function () {
               toggleAddModal();
               var coordinatesField = document.querySelector('input[name="coordinates"]').value = latLng;
             });
-            document.querySelector('button.addSubmit').addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
               var _values;
 
-              var fields, values;
+              var fields, values, places;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      fields = document.querySelectorAll('div.addModal > div.modal-content > input');
-                      console.log(fields);
+                      fields = document.querySelectorAll("div.addModal > div.modal-content > input");
                       values = (_values = {}, _defineProperty(_values, fields[0].name, fields[0].value), _defineProperty(_values, fields[1].name, fields[1].value), _defineProperty(_values, fields[2].name, fields[2].value), _defineProperty(_values, fields[3].name, fields[3].value), _values);
-                      console.log(values);
 
-                      if (Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values)) {
-                        console.log('success');
-                        toggleAddModal();
-                      } else {
-                        console.log('failure');
+                      if (!Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values)) {
+                        _context2.next = 11;
+                        break;
                       }
 
-                    case 5:
+                      toggleAddModal();
+                      if (marker != "") marker.setMap(null);
+                      _context2.next = 7;
+                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+                    case 7:
+                      places = _context2.sent;
+                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
+                      _context2.next = 12;
+                      break;
+
+                    case 11:
+                      console.log("failure");
+
+                    case 12:
                     case "end":
                       return _context2.stop();
                   }
                 }
               }, _callee2);
             })));
+            _context3.t0 = console;
+            _context3.next = 12;
+            return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlace"])(1);
 
-          case 9:
+          case 12:
+            _context3.t1 = _context3.sent;
+
+            _context3.t0.log.call(_context3.t0, _context3.t1);
+
+          case 14:
           case "end":
             return _context3.stop();
         }
@@ -954,7 +971,7 @@ var app = /*#__PURE__*/function () {
   };
 }();
 
-document.addEventListener('DOMContentLoaded', app);
+document.addEventListener("DOMContentLoaded", app);
 
 __webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
 
@@ -964,13 +981,14 @@ __webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
 /*!******************************!*\
   !*** ./resources/js/main.js ***!
   \******************************/
-/*! exports provided: getPlaces, postPlace */
+/*! exports provided: getPlaces, postPlace, getPlace */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPlaces", function() { return getPlaces; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postPlace", function() { return postPlace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPlace", function() { return getPlace; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -992,15 +1010,15 @@ var getPlaces = /*#__PURE__*/function () {
             return _context.abrupt("return", new Promise(function (resolve, reject) {
               var items = [];
               var placesRequest = new XMLHttpRequest();
-              placesRequest.open('GET', 'api/places');
+              placesRequest.open("GET", "api/places");
 
               placesRequest.onload = function () {
                 if (placesRequest.status === 200) {
                   var buffer = "";
                   items = JSON.parse(placesRequest.responseText).map(function (item) {
                     return {
-                      lat: parseFloat(item.coordinates.split(',')[0]),
-                      lng: parseFloat(item.coordinates.split(',')[1].substr(1))
+                      lat: parseFloat(item.coordinates.split(",")[0]),
+                      lng: parseFloat(item.coordinates.split(",")[1].substr(1))
                     };
                   });
                   console.log(items);
@@ -1008,7 +1026,7 @@ var getPlaces = /*#__PURE__*/function () {
                     console.log(place);
                     buffer += "<div><h2>" + place.title + "</h2><p>" + place.description + "</p><span>" + place.coordinates + "</span><span>" + place.hours + "</span></div>";
                   });
-                  setList('#list', buffer);
+                  setList("#list", buffer);
                   resolve(items);
                 } else {
                   reject(placesRequest.status());
@@ -1038,9 +1056,9 @@ var postPlace = /*#__PURE__*/function () {
           case 0:
             return _context2.abrupt("return", new Promise(function (resolve, reject) {
               var postPlaceRequest = new XMLHttpRequest();
-              postPlaceRequest.open('POST', 'api/places');
-              postPlaceRequest.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-              postPlaceRequest.setRequestHeader('Content-Type', 'application/json');
+              postPlaceRequest.open("POST", "api/places");
+              postPlaceRequest.setRequestHeader("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]').getAttribute("content"));
+              postPlaceRequest.setRequestHeader("Content-Type", "application/json");
 
               postPlaceRequest.onload = function () {
                 if (postPlaceRequest.status === 200) {
@@ -1065,6 +1083,41 @@ var postPlace = /*#__PURE__*/function () {
 
   return function postPlace(_x) {
     return _ref2.apply(this, arguments);
+  };
+}();
+var getPlace = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(id) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            return _context3.abrupt("return", new Promise(function (resolve, reject) {
+              var getPlaceRequest = new XMLHttpRequest();
+              getPlaceRequest.open("GET", "api/places/" + id);
+
+              getPlaceRequest.onload = function () {
+                if (getPlaceRequest.status === 200) {
+                  var place = JSON.parse(getPlaceRequest.responseText);
+                  console.log(place);
+                  resolve(place);
+                } else {
+                  reject(getPlaceRequest.status());
+                }
+              };
+
+              getPlaceRequest.send();
+            }));
+
+          case 1:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function getPlace(_x2) {
+    return _ref3.apply(this, arguments);
   };
 }();
 
