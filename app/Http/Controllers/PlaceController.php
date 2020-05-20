@@ -44,8 +44,10 @@ class PlaceController extends Controller
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function show(Place $place)
+    public function show($id)
     {
+        $place = Place::findOrFail($id);
+
         return $place;
     }
 
