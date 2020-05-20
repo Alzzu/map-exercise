@@ -52,6 +52,24 @@ export const postPlace = async data => {
     });
 };
 
+export const updatePlace = async (id, data) => {
+    return new Promise((resolve, reject) => {
+        const updatePlaceRequest = new XMLHttpRequest();
+        updatePlaceRequest.open("PUT", "api/places/" + id);
+        updatePlaceRequest.setRequestHeader("Content-Type", "application/json");
+        updatePlaceRequest.onload = () => {
+            if (updatePlaceRequest.status === 200) {
+                const place = JSON.parse(updatePlaceRequest.responseText);
+                console.log("update", place);
+                resolve(place);
+            } else {
+                reject(updatePlaceRequest.status());
+            }
+        };
+        updatePlaceRequest.send(JSON.stringify(data));
+    });
+};
+
 export const getPlace = async id => {
     return new Promise((resolve, reject) => {
         const getPlaceRequest = new XMLHttpRequest();
@@ -66,5 +84,19 @@ export const getPlace = async id => {
             }
         };
         getPlaceRequest.send();
+    });
+};
+
+export const deletePlace = async id => {
+    return new Promise((resolve, reject) => {
+        const deletePlaceRequest = new XMLHttpRequest();
+        deletePlaceRequest.open("DELETE", "api/places/" + id);
+        deletePlaceRequest.onload = () => {
+            if (deletePlaceRequest.status === 200) {
+                resolve(deletePlaceRequest.responseText);
+            } else {
+                reject(deletePlaceRequest.status());
+            }
+        };
     });
 };
