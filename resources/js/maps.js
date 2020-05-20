@@ -1,41 +1,51 @@
 let map2;
-let markers = []
+let markers = [];
 
-const initMap = (items) => {
-    map2 = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 60.995339758930285, lng: 24.467076726810678},
+const initMap = items => {
+    map2 = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 60.995339758930285, lng: 24.467076726810678 },
         zoom: 8
     });
-    console.log(items)
-    items.map(item => {
-        console.log('adding marker')
-        addMarker(item, map2)
-    })
+    console.log(items);
 
-    return map2
-}
+    refreshMarkers(items);
 
-const addMarker = (location, map) => {
+    return map2;
+};
+
+const addMarker = (location, map, places) => {
     const marker = new google.maps.Marker({
-        position: location,
-        map: map
-    })
-    markers.push(marker)
-}
+        position: { lat: location.lat, lng: location.lng },
+        map: map,
+        label: location.id
+    });
 
-const refreshMarkers = (places) => {
-    console.log('asd')
-    markers.map(marker => marker.setMap(null))
-    markers = []
-    console.log(places)
+    marker.addListener("click", e => {
+        const place = places.find(place => place.id == marker.label);
+        document.querySelector(".place").innerHTML =
+            "<h2>" +
+            place.title +
+            "</h2><div>" +
+            place.description +
+            "</div><div>" +
+            place.hours +
+            "</div>";
+        console.log(marker);
+    });
 
-    places.map(item => {
-        console.log('adding marker')
-        addMarker(item, map2)
-    })
+    markers.push(marker);
+};
 
-}
+const refreshMarkers = places => {
+    console.log("asd");
+    if (markers.length != 0) markers.map(marker => marker.setMap(null));
+    markers = [];
+    console.log("refresh", places);
 
+    places.coordinates.map(item => {
+        console.log("adding marker");
+        addMarker(item, map2, places.places);
+    });
+};
 
-
-module.exports = { initMap, refreshMarkers }
+module.exports = { initMap, refreshMarkers };

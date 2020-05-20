@@ -44,7 +44,7 @@ const app = async () => {
                 [fields[3].name]: fields[3].value
             };
 
-            if (postPlace(values)) {
+            if (await postPlace(values)) {
                 toggleAddModal();
 
                 if (marker != "") marker.setMap(null);
@@ -54,8 +54,6 @@ const app = async () => {
                 console.log("failure");
             }
         });
-
-    console.log(await getPlace(1));
 };
 
 document.addEventListener("DOMContentLoaded", app);

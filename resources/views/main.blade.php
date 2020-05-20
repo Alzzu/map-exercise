@@ -16,7 +16,7 @@
 <body>
     <div id="map"></div>
     <div>
-        <ul id="list"></ul>
+        <div class="place"><h2>Select place from the map!</h2></div>
         <button onclick="window.toggleAddModal()">Test modal</button>
         <button class="testbutton">test button</button>
     

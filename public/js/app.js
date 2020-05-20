@@ -922,43 +922,38 @@ var app = /*#__PURE__*/function () {
                     case 0:
                       fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                       values = (_values = {}, _defineProperty(_values, fields[0].name, fields[0].value), _defineProperty(_values, fields[1].name, fields[1].value), _defineProperty(_values, fields[2].name, fields[2].value), _defineProperty(_values, fields[3].name, fields[3].value), _values);
+                      _context2.next = 4;
+                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values);
 
-                      if (!Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values)) {
-                        _context2.next = 11;
+                    case 4:
+                      if (!_context2.sent) {
+                        _context2.next = 13;
                         break;
                       }
 
                       toggleAddModal();
                       if (marker != "") marker.setMap(null);
-                      _context2.next = 7;
+                      _context2.next = 9;
                       return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
-                    case 7:
+                    case 9:
                       places = _context2.sent;
                       Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-                      _context2.next = 12;
+                      _context2.next = 14;
                       break;
 
-                    case 11:
+                    case 13:
                       console.log("failure");
 
-                    case 12:
+                    case 14:
                     case "end":
                       return _context2.stop();
                   }
                 }
               }, _callee2);
             })));
-            _context3.t0 = console;
-            _context3.next = 12;
-            return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlace"])(1);
 
-          case 12:
-            _context3.t1 = _context3.sent;
-
-            _context3.t0.log.call(_context3.t0, _context3.t1);
-
-          case 14:
+          case 9:
           case "end":
             return _context3.stop();
         }
@@ -1017,17 +1012,15 @@ var getPlaces = /*#__PURE__*/function () {
                   var buffer = "";
                   items = JSON.parse(placesRequest.responseText).map(function (item) {
                     return {
+                      id: "" + item.id,
                       lat: parseFloat(item.coordinates.split(",")[0]),
                       lng: parseFloat(item.coordinates.split(",")[1].substr(1))
                     };
                   });
-                  console.log(items);
-                  JSON.parse(placesRequest.responseText).map(function (place) {
-                    console.log(place);
-                    buffer += "<div><h2>" + place.title + "</h2><p>" + place.description + "</p><span>" + place.coordinates + "</span><span>" + place.hours + "</span></div>";
+                  resolve({
+                    places: JSON.parse(placesRequest.responseText),
+                    coordinates: items
                   });
-                  setList("#list", buffer);
-                  resolve(items);
                 } else {
                   reject(placesRequest.status());
                 }
@@ -1134,7 +1127,7 @@ var map2;
 var markers = [];
 
 var initMap = function initMap(items) {
-  map2 = new google.maps.Map(document.getElementById('map'), {
+  map2 = new google.maps.Map(document.getElementById("map"), {
     center: {
       lat: 60.995339758930285,
       lng: 24.467076726810678
@@ -1142,31 +1135,39 @@ var initMap = function initMap(items) {
     zoom: 8
   });
   console.log(items);
-  items.map(function (item) {
-    console.log('adding marker');
-    addMarker(item, map2);
-  });
+  refreshMarkers(items);
   return map2;
 };
 
-var addMarker = function addMarker(location, map) {
+var addMarker = function addMarker(location, map, places) {
   var marker = new google.maps.Marker({
-    position: location,
-    map: map
+    position: {
+      lat: location.lat,
+      lng: location.lng
+    },
+    map: map,
+    label: location.id
+  });
+  marker.addListener("click", function (e) {
+    var place = places.find(function (place) {
+      return place.id == marker.label;
+    });
+    document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + place.description + "</div><div>" + place.hours + "</div>";
+    console.log(marker);
   });
   markers.push(marker);
 };
 
 var refreshMarkers = function refreshMarkers(places) {
-  console.log('asd');
-  markers.map(function (marker) {
+  console.log("asd");
+  if (markers.length != 0) markers.map(function (marker) {
     return marker.setMap(null);
   });
   markers = [];
-  console.log(places);
-  places.map(function (item) {
-    console.log('adding marker');
-    addMarker(item, map2);
+  console.log("refresh", places);
+  places.coordinates.map(function (item) {
+    console.log("adding marker");
+    addMarker(item, map2, places.places);
   });
 };
 

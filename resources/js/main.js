@@ -12,25 +12,14 @@ export const getPlaces = async () => {
             if (placesRequest.status === 200) {
                 let buffer = "";
                 items = JSON.parse(placesRequest.responseText).map(item => ({
+                    id: "" + item.id,
                     lat: parseFloat(item.coordinates.split(",")[0]),
                     lng: parseFloat(item.coordinates.split(",")[1].substr(1))
                 }));
-                console.log(items);
-                JSON.parse(placesRequest.responseText).map(place => {
-                    console.log(place);
-                    buffer +=
-                        "<div><h2>" +
-                        place.title +
-                        "</h2><p>" +
-                        place.description +
-                        "</p><span>" +
-                        place.coordinates +
-                        "</span><span>" +
-                        place.hours +
-                        "</span></div>";
+                resolve({
+                    places: JSON.parse(placesRequest.responseText),
+                    coordinates: items
                 });
-                setList("#list", buffer);
-                resolve(items);
             } else {
                 reject(placesRequest.status());
             }
