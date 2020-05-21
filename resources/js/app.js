@@ -1,5 +1,5 @@
 import { initMap, refreshMarkers } from "./maps.js";
-import { getPlaces, postPlace, getPlace, updatePlace } from "./main.js";
+import { getPlaces, postPlace, getPlace, updatePlace } from "./api.js";
 
 let marker = "";
 const addModal = document.querySelector(".modal");
@@ -49,7 +49,8 @@ const app = async () => {
                 [fields[0].name]: fields[0].value,
                 [fields[1].name]: fields[1].value,
                 [fields[2].name]: fields[2].value,
-                [fields[3].name]: fields[3].value
+                [fields[3].name]: fields[3].value,
+                tags: [1, 2]
             };
 
             const method = document

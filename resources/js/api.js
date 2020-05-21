@@ -29,6 +29,7 @@ export const getPlaces = async () => {
 };
 
 export const postPlace = async data => {
+    console.log(data);
     return new Promise((resolve, reject) => {
         const postPlaceRequest = new XMLHttpRequest();
         postPlaceRequest.open("POST", "api/places");

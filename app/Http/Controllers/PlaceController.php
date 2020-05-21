@@ -35,6 +35,8 @@ class PlaceController extends Controller
         ]);
 
         $place = Place::create($validated);
+        $tags = $request->tags;
+        $tag = $place->tags()->attach($tags);
         return response()->json($place, 200);
     }
 

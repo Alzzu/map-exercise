@@ -838,193 +838,10 @@ try {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
+/***/ "./resources/js/api.js":
 /*!*****************************!*\
-  !*** ./resources/js/app.js ***!
+  !*** ./resources/js/api.js ***!
   \*****************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _maps_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./maps.js */ "./resources/js/maps.js");
-/* harmony import */ var _maps_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_maps_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./main.js */ "./resources/js/main.js");
-
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-var marker = "";
-var addModal = document.querySelector(".modal");
-
-var app = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-    var items, map;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
-            return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
-
-          case 2:
-            items = _context3.sent;
-            _context3.next = 5;
-            return Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["initMap"])(items);
-
-          case 5:
-            map = _context3.sent;
-            document.querySelector(".testbutton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-              var places;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-                while (1) {
-                  switch (_context.prev = _context.next) {
-                    case 0:
-                      _context.next = 2;
-                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
-
-                    case 2:
-                      places = _context.sent;
-                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-
-                    case 4:
-                    case "end":
-                      return _context.stop();
-                  }
-                }
-              }, _callee);
-            })));
-            google.maps.event.addListener(map, "click", function (e) {
-              var latLng = e.latLng.lat() + ", " + e.latLng.lng();
-              if (marker != "") marker.setMap(null);
-              marker = new google.maps.Marker({
-                position: e.latLng,
-                map: map
-              });
-              document.querySelector(".addModal").setAttribute("data-method", "add");
-              var fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
-              fields[0].value = "";
-              fields[1].value = "";
-              fields[3].value = "";
-              toggleAddModal();
-              var coordinatesField = document.querySelector('input[name="coordinates"]').value = latLng;
-            });
-            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-              var _values;
-
-              var fields, values, method, places, id, _places;
-
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-                while (1) {
-                  switch (_context2.prev = _context2.next) {
-                    case 0:
-                      fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
-                      values = (_values = {}, _defineProperty(_values, fields[0].name, fields[0].value), _defineProperty(_values, fields[1].name, fields[1].value), _defineProperty(_values, fields[2].name, fields[2].value), _defineProperty(_values, fields[3].name, fields[3].value), _values);
-                      method = document.querySelector(".addModal").getAttribute("data-method");
-
-                      if (!(method === "add")) {
-                        _context2.next = 18;
-                        break;
-                      }
-
-                      _context2.next = 6;
-                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values);
-
-                    case 6:
-                      if (!_context2.sent) {
-                        _context2.next = 15;
-                        break;
-                      }
-
-                      toggleAddModal();
-                      if (marker != "") marker.setMap(null);
-                      _context2.next = 11;
-                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
-
-                    case 11:
-                      places = _context2.sent;
-                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-                      _context2.next = 16;
-                      break;
-
-                    case 15:
-                      console.log("failure");
-
-                    case 16:
-                      _context2.next = 32;
-                      break;
-
-                    case 18:
-                      if (!(method === "edit")) {
-                        _context2.next = 32;
-                        break;
-                      }
-
-                      id = document.querySelector(".addModal").getAttribute("data-id");
-                      _context2.next = 22;
-                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["updatePlace"])(id, values);
-
-                    case 22:
-                      if (!_context2.sent) {
-                        _context2.next = 30;
-                        break;
-                      }
-
-                      toggleAddModal();
-                      _context2.next = 26;
-                      return Object(_main_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
-
-                    case 26:
-                      _places = _context2.sent;
-                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(_places);
-                      _context2.next = 31;
-                      break;
-
-                    case 30:
-                      console.log("failure to update");
-
-                    case 31:
-                      console.log("edit");
-
-                    case 32:
-                    case "end":
-                      return _context2.stop();
-                  }
-                }
-              }, _callee2);
-            })));
-
-          case 9:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function app() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-document.addEventListener("DOMContentLoaded", app);
-
-__webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
-
-/***/ }),
-
-/***/ "./resources/js/main.js":
-/*!******************************!*\
-  !*** ./resources/js/main.js ***!
-  \******************************/
 /*! exports provided: getPlaces, postPlace, updatePlace, getPlace, deletePlace */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1098,6 +915,7 @@ var postPlace = /*#__PURE__*/function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            console.log(data);
             return _context2.abrupt("return", new Promise(function (resolve, reject) {
               var postPlaceRequest = new XMLHttpRequest();
               postPlaceRequest.open("POST", "api/places");
@@ -1117,7 +935,7 @@ var postPlace = /*#__PURE__*/function () {
               postPlaceRequest.send(JSON.stringify(data));
             }));
 
-          case 1:
+          case 2:
           case "end":
             return _context2.stop();
         }
@@ -1231,6 +1049,189 @@ var deletePlace = /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }();
+
+/***/ }),
+
+/***/ "./resources/js/app.js":
+/*!*****************************!*\
+  !*** ./resources/js/app.js ***!
+  \*****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _maps_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./maps.js */ "./resources/js/maps.js");
+/* harmony import */ var _maps_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_maps_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./api.js */ "./resources/js/api.js");
+
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var marker = "";
+var addModal = document.querySelector(".modal");
+
+var app = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+    var items, map;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+          case 2:
+            items = _context3.sent;
+            _context3.next = 5;
+            return Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["initMap"])(items);
+
+          case 5:
+            map = _context3.sent;
+            document.querySelector(".testbutton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+              var places;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                  switch (_context.prev = _context.next) {
+                    case 0:
+                      _context.next = 2;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+                    case 2:
+                      places = _context.sent;
+                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
+
+                    case 4:
+                    case "end":
+                      return _context.stop();
+                  }
+                }
+              }, _callee);
+            })));
+            google.maps.event.addListener(map, "click", function (e) {
+              var latLng = e.latLng.lat() + ", " + e.latLng.lng();
+              if (marker != "") marker.setMap(null);
+              marker = new google.maps.Marker({
+                position: e.latLng,
+                map: map
+              });
+              document.querySelector(".addModal").setAttribute("data-method", "add");
+              var fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
+              fields[0].value = "";
+              fields[1].value = "";
+              fields[3].value = "";
+              toggleAddModal();
+              var coordinatesField = document.querySelector('input[name="coordinates"]').value = latLng;
+            });
+            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+              var _values;
+
+              var fields, values, method, places, id, _places;
+
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                while (1) {
+                  switch (_context2.prev = _context2.next) {
+                    case 0:
+                      fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
+                      values = (_values = {}, _defineProperty(_values, fields[0].name, fields[0].value), _defineProperty(_values, fields[1].name, fields[1].value), _defineProperty(_values, fields[2].name, fields[2].value), _defineProperty(_values, fields[3].name, fields[3].value), _defineProperty(_values, "tags", [1, 2]), _values);
+                      method = document.querySelector(".addModal").getAttribute("data-method");
+
+                      if (!(method === "add")) {
+                        _context2.next = 18;
+                        break;
+                      }
+
+                      _context2.next = 6;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values);
+
+                    case 6:
+                      if (!_context2.sent) {
+                        _context2.next = 15;
+                        break;
+                      }
+
+                      toggleAddModal();
+                      if (marker != "") marker.setMap(null);
+                      _context2.next = 11;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+                    case 11:
+                      places = _context2.sent;
+                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
+                      _context2.next = 16;
+                      break;
+
+                    case 15:
+                      console.log("failure");
+
+                    case 16:
+                      _context2.next = 32;
+                      break;
+
+                    case 18:
+                      if (!(method === "edit")) {
+                        _context2.next = 32;
+                        break;
+                      }
+
+                      id = document.querySelector(".addModal").getAttribute("data-id");
+                      _context2.next = 22;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["updatePlace"])(id, values);
+
+                    case 22:
+                      if (!_context2.sent) {
+                        _context2.next = 30;
+                        break;
+                      }
+
+                      toggleAddModal();
+                      _context2.next = 26;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+                    case 26:
+                      _places = _context2.sent;
+                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(_places);
+                      _context2.next = 31;
+                      break;
+
+                    case 30:
+                      console.log("failure to update");
+
+                    case 31:
+                      console.log("edit");
+
+                    case 32:
+                    case "end":
+                      return _context2.stop();
+                  }
+                }
+              }, _callee2);
+            })));
+
+          case 9:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function app() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+document.addEventListener("DOMContentLoaded", app);
+
+__webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
 
 /***/ }),
 
