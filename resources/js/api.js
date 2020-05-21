@@ -101,3 +101,17 @@ export const deletePlace = async id => {
         };
     });
 };
+
+export const getTags = async () => {
+    return new Promise((resolve, reject) => {
+        const getTagsRequest = new XMLHttpRequest();
+        getTagsRequest.open("GET", "api/tags");
+        getTagsRequest.onload = () => {
+            if (getTagsRequest.status === 200) {
+                resolve(getTagsRequest.responseText);
+            } else {
+                reject(getTagsRequest.status());
+            }
+        };
+    });
+};

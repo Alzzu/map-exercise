@@ -842,7 +842,7 @@ try {
 /*!*****************************!*\
   !*** ./resources/js/api.js ***!
   \*****************************/
-/*! exports provided: getPlaces, postPlace, updatePlace, getPlace, deletePlace */
+/*! exports provided: getPlaces, postPlace, updatePlace, getPlace, deletePlace, getTags */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -852,6 +852,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updatePlace", function() { return updatePlace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPlace", function() { return getPlace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePlace", function() { return deletePlace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTags", function() { return getTags; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -1047,6 +1048,37 @@ var deletePlace = /*#__PURE__*/function () {
 
   return function deletePlace(_x5) {
     return _ref5.apply(this, arguments);
+  };
+}();
+var getTags = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            return _context6.abrupt("return", new Promise(function (resolve, reject) {
+              var getTagsRequest = new XMLHttpRequest();
+              getTagsRequest.open("GET", "api/tags");
+
+              getTagsRequest.onload = function () {
+                if (getTagsRequest.status === 200) {
+                  resolve(getTagsRequest.responseText);
+                } else {
+                  reject(getTagsRequest.status());
+                }
+              };
+            }));
+
+          case 1:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
+  }));
+
+  return function getTags() {
+    return _ref6.apply(this, arguments);
   };
 }();
 
