@@ -21,3 +21,4 @@ Route::put('places/{id}', 'PlaceController@update');
 Route::patch('places/{id}', 'PlaceController@update');
 Route::delete('places/{id}', 'PlaceController@delete');
 
+Route::get('tags', 'TagController@index');

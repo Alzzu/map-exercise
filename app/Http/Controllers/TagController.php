@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Place;
+use App\Tag;
 use Illuminate\Http\Request;
 
-class PlaceController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        return Place::with('tags')->get();
+        return Tag::all();
     }
 
     /** 
