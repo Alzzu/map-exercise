@@ -1,6 +1,6 @@
 import { initMap, refreshMarkers } from "./maps.js";
 import { getPlaces, postPlace, getPlace, updatePlace, getTags } from "./api.js";
-import { drawTagControls, drawTagList } from "./helpers.js";
+import { drawTagControls, drawTagList, isPlaceOpen } from "./helpers.js";
 
 let marker = "";
 const addModal = document.querySelector(".modal");
@@ -15,6 +15,35 @@ const app = async () => {
             const places = await getPlaces();
             refreshMarkers(places);
         });
+
+    //filters
+
+    const openCheckbox = document.querySelector(".open");
+    openCheckbox.addEventListener("change", async () => {
+        const request = await getPlaces();
+        console.log("this", request);
+        if (openCheckbox.checked) {
+            const openPlaces = request.places.filter(place =>
+                isPlaceOpen(place.hours)
+            );
+
+            let array = [];
+            openPlaces.map(openPlace => {
+                array.push(openPlace.id);
+            });
+
+            const openCoordinates = request.coordinates.filter(coordinate =>
+                array.includes(parseInt(coordinate.id))
+            );
+
+            refreshMarkers({
+                places: openPlaces,
+                coordinates: openCoordinates
+            });
+        } else {
+            refreshMarkers(request);
+        }
+    });
 
     google.maps.event.addListener(map, "click", async e => {
         const latLng = e.latLng.lat() + ", " + e.latLng.lng();

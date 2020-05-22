@@ -124,3 +124,16 @@ export const drawEditTagList = async (element, place) => {
         });
     });
 };
+
+export const isPlaceOpen = hours => {
+    const currentTime = moment();
+    const times = hours.split("-");
+    const firstTime = moment(times[0], "hh:mm");
+    const secondTime = moment(times[1], "hh:mm");
+
+    if (moment(currentTime, "hh:mm").isBetween(firstTime, secondTime)) {
+        return true;
+    } else {
+        return false;
+    }
+};

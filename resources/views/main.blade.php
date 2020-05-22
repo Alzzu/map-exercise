@@ -9,13 +9,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
     <script src="{{ URL::asset('js/modal.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('APP_MAPSAPIKEY') }}" type="text/javascript"></script>
+    
     <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 
 </head>
 <body>
     <div id="map"></div>
     <div>
+        <div class="filters">
+            Open<input class="open" type="checkbox" name="Open">
+        </div>
         <div class="place"><h2>Select place from the map!</h2></div>
         <button class="testbutton">test button</button>
 

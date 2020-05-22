@@ -27,6 +27,18 @@ const addMarker = (location, map, places) => {
     marker.addListener("click", e => {
         const place = places.find(place => place.id == marker.label);
 
+        const currentTime = moment();
+        const times = place.hours.split("-");
+        const firstTime = moment(times[0], "hh:mm");
+        const secondTime = moment(times[1], "hh:mm");
+
+        const open = moment(currentTime, "hh:mm").isBetween(
+            firstTime,
+            secondTime
+        )
+            ? "Open"
+            : "Closed";
+
         let tags = "";
         place.tags.map(tag => {
             tags += "<span>" + tag.label + " </span>";
@@ -36,6 +48,8 @@ const addMarker = (location, map, places) => {
             place.title +
             "</h2><div>" +
             tags +
+            "</div><div>" +
+            open +
             "</div><div>" +
             place.description +
             "</div><div>" +
