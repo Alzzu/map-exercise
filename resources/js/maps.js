@@ -26,10 +26,17 @@ const addMarker = (location, map, places) => {
 
     marker.addListener("click", e => {
         const place = places.find(place => place.id == marker.label);
+
+        let tags = "";
+        place.tags.map(tag => {
+            tags += "<span>" + tag.label + " </span>";
+        });
         document.querySelector(".place").innerHTML =
             "<h2>" +
             place.title +
             "</h2><div>" +
+            tags +
+            "</div><div>" +
             place.description +
             "</div><div>" +
             place.hours +

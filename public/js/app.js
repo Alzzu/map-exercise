@@ -1654,7 +1654,11 @@ var addMarker = function addMarker(location, map, places) {
     var place = places.find(function (place) {
       return place.id == marker.label;
     });
-    document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + place.description + "</div><div>" + place.hours + "</div><button class='editButton'>Edit</button>";
+    var tags = "";
+    place.tags.map(function (tag) {
+      tags += "<span>" + tag.label + " </span>";
+    });
+    document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + tags + "</div><div>" + place.description + "</div><div>" + place.hours + "</div><button class='editButton'>Edit</button>";
     document.querySelector(".addModal").setAttribute("data-id", place.id);
     document.querySelector(".editButton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var fields, tagsList, tagControls;
