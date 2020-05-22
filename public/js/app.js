@@ -1202,7 +1202,7 @@ var app = /*#__PURE__*/function () {
             })));
             google.maps.event.addListener(map, "click", /*#__PURE__*/function () {
               var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
-                var latLng, fields, tagsList, tags, tagElements, buttons, coordinatesField;
+                var latLng, fields, tagsList, tagControls, coordinatesField;
                 return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
                   while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -1216,38 +1216,22 @@ var app = /*#__PURE__*/function () {
                         document.querySelector(".addModal").setAttribute("data-method", "add");
                         fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                         tagsList = document.querySelector("div.tags");
-                        _context2.next = 8;
-                        return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getTags"])();
+                        tagControls = document.querySelector("div.tagControls");
+                        _context2.next = 9;
+                        return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagList"])(tagsList);
 
-                      case 8:
-                        tags = _context2.sent;
-                        tagElements = "";
-                        tags.map(function (tag) {
-                          tagElements += "<button class='tag-button' data-id=" + tag.id + " data-enabled='false'>" + tag.label + "</button>";
-                        });
-                        tagsList.innerHTML = "<label>Tags</label>" + tagElements;
-                        Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagControls"])(tagsList);
-                        buttons = document.querySelectorAll("div.tags > button.tag-button");
+                      case 9:
+                        _context2.next = 11;
+                        return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagControls"])(tagControls, tagsList);
 
-                        _toConsumableArray(buttons).map(function (button) {
-                          button.addEventListener("click", function () {
-                            if (button.dataset.enabled === "false") {
-                              button.setAttribute("data-enabled", "true");
-                              button.style.borderColor = "green";
-                            } else {
-                              button.setAttribute("data-enabled", "false");
-                              button.style.borderColor = "#000";
-                            }
-                          });
-                        });
-
+                      case 11:
                         fields[0].value = "";
                         fields[1].value = "";
                         fields[3].value = "";
                         toggleModal();
                         coordinatesField = document.querySelector('input[name="coordinates"]').value = latLng;
 
-                      case 20:
+                      case 16:
                       case "end":
                         return _context2.stop();
                     }
@@ -1378,48 +1362,15 @@ __webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
 /*!*********************************!*\
   !*** ./resources/js/helpers.js ***!
   \*********************************/
-/*! exports provided: drawTagControls */
+/*! exports provided: drawTagControls, drawTagList, drawEditTagControls, drawEditTagList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawTagControls", function() { return drawTagControls; });
-/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api.js */ "./resources/js/api.js");
-
-var drawTagControls = function drawTagControls(element) {
-  element.innerHTML += "<button class='add-tag-button'>+</button><input class='newtag-input' name='newtag' type='text' style='display: none;'>";
-  var addTagButton = document.querySelector(".add-tag-button");
-  addTagButton.addEventListener("click", function () {
-    var newTagInput = document.querySelector(".newtag-input");
-    addTagButton.style.display = "none";
-    newTagInput.style.display = "inline-block";
-    newTagInput.focus();
-
-    newTagInput.onkeydown = function (e) {
-      if (e.key === "Enter") {
-        Object(_api_js__WEBPACK_IMPORTED_MODULE_0__["postTag"])({
-          label: newTagInput.value
-        });
-        addTagButton.style.display = "inline-block";
-        newTagInput.style.display = "none";
-      }
-    };
-  });
-};
-
-/***/ }),
-
-/***/ "./resources/js/maps.js":
-/*!******************************!*\
-  !*** ./resources/js/maps.js ***!
-  \******************************/
-/*! exports provided: initMap, refreshMarkers */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initMap", function() { return initMap; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refreshMarkers", function() { return refreshMarkers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawTagList", function() { return drawTagList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawEditTagControls", function() { return drawEditTagControls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawEditTagList", function() { return drawEditTagList; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api.js */ "./resources/js/api.js");
@@ -1440,6 +1391,239 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var drawTagControls = function drawTagControls(element, tagList) {
+  element.innerHTML = "<button class='add-tag-button'>+</button><input class='newtag-input' name='newtag' type='text' style='display: none;'>";
+  var addTagButton = element.querySelector(".add-tag-button");
+  addTagButton.addEventListener("click", function () {
+    var newTagInput = element.querySelector(".newtag-input");
+    addTagButton.style.display = "none";
+    newTagInput.style.display = "inline-block";
+    newTagInput.focus();
+
+    newTagInput.onkeydown = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(e.key === "Enter")) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.next = 3;
+                return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["postTag"])({
+                  label: newTagInput.value
+                });
+
+              case 3:
+                _context.next = 5;
+                return drawTagList(tagList);
+
+              case 5:
+                _context.next = 7;
+                return drawTagControls(element, tagList);
+
+              case 7:
+                addTagButton.style.display = "inline-block";
+                newTagInput.style.display = "none";
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
+  });
+};
+var drawTagList = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(element) {
+    var tags, tagElements, buttons;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["getTags"])();
+
+          case 2:
+            tags = _context2.sent;
+            tagElements = "";
+            tags.map(function (tag) {
+              tagElements += "<button class='tag-button' data-id=" + tag.id + " data-enabled='false'>" + tag.label + "</button>";
+            });
+            element.innerHTML = "<label>Tags</label>" + tagElements;
+            buttons = element.querySelectorAll(".tag-button");
+
+            _toConsumableArray(buttons).map(function (button) {
+              button.addEventListener("click", function () {
+                console.log("click");
+
+                if (button.dataset.enabled === "false") {
+                  button.setAttribute("data-enabled", "true");
+                  button.style.borderColor = "green";
+                } else {
+                  button.setAttribute("data-enabled", "false");
+                  button.style.borderColor = "#000";
+                }
+              });
+            }, false);
+
+          case 8:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function drawTagList(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+var drawEditTagControls = function drawEditTagControls(element, tagList, place) {
+  element.innerHTML = "<button class='add-tag-button'>+</button><input class='newtag-input' name='newtag' type='text' style='display: none;'>";
+  var addTagButton = element.querySelector(".add-tag-button");
+  addTagButton.addEventListener("click", function () {
+    var newTagInput = element.querySelector(".newtag-input");
+    addTagButton.style.display = "none";
+    newTagInput.style.display = "inline-block";
+    newTagInput.focus();
+
+    newTagInput.onkeydown = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(e.key === "Enter")) {
+                  _context3.next = 9;
+                  break;
+                }
+
+                _context3.next = 3;
+                return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["postTag"])({
+                  label: newTagInput.value
+                });
+
+              case 3:
+                _context3.next = 5;
+                return drawEditTagList(tagList, place);
+
+              case 5:
+                _context3.next = 7;
+                return drawEditTagControls(element, tagList, place);
+
+              case 7:
+                addTagButton.style.display = "inline-block";
+                newTagInput.style.display = "none";
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function (_x3) {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+  });
+};
+var drawEditTagList = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(element, place) {
+    var allTags, array, tagElements, buttons;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["getTags"])();
+
+          case 2:
+            allTags = _context4.sent;
+            array = [];
+
+            if (place.tags) {
+              place.tags.map(function (tag) {
+                array.push(tag.id);
+              });
+            }
+
+            tagElements = "";
+            allTags.map(function (tag) {
+              var enabled = array.includes(tag.id) ? "true" : "false";
+              tagElements += "<button class='tag-button' data-id=" + tag.id + " data-enabled=" + enabled + ">" + tag.label + "</button>";
+            });
+            element.innerHTML = "<label>Tags</label>" + tagElements;
+            buttons = element.querySelectorAll("button.tag-button");
+
+            _toConsumableArray(buttons).map(function (button) {
+              if (button.dataset.enabled === "true") {
+                button.style.borderColor = "green";
+              } else {
+                button.style.borderColor = "#000";
+              }
+
+              button.addEventListener("click", function () {
+                console.log("click");
+
+                if (button.dataset.enabled === "false") {
+                  button.setAttribute("data-enabled", "true");
+                  button.style.borderColor = "green";
+                } else {
+                  button.setAttribute("data-enabled", "false");
+                  button.style.borderColor = "#000";
+                }
+              });
+            });
+
+          case 10:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function drawEditTagList(_x4, _x5) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+/***/ }),
+
+/***/ "./resources/js/maps.js":
+/*!******************************!*\
+  !*** ./resources/js/maps.js ***!
+  \******************************/
+/*! exports provided: initMap, refreshMarkers */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initMap", function() { return initMap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "refreshMarkers", function() { return refreshMarkers; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api.js */ "./resources/js/api.js");
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers.js */ "./resources/js/helpers.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 var map2;
@@ -1473,60 +1657,30 @@ var addMarker = function addMarker(location, map, places) {
     document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + place.description + "</div><div>" + place.hours + "</div><button class='editButton'>Edit</button>";
     document.querySelector(".addModal").setAttribute("data-id", place.id);
     document.querySelector(".editButton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var fields, allTags, array, tagElements, buttons;
+      var fields, tagsList, tagControls;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               document.querySelector(".addModal").setAttribute("data-method", "edit");
-              toggleModal();
               fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
               fields[0].value = place.title;
               fields[1].value = place.description;
               fields[2].value = place.coordinates;
               fields[3].value = place.hours;
-              _context.next = 9;
-              return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["getTags"])();
+              tagsList = document.querySelector("div.tags");
+              tagControls = document.querySelector("div.tagControls");
+              _context.next = 10;
+              return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_2__["drawEditTagList"])(tagsList, place);
 
-            case 9:
-              allTags = _context.sent;
-              array = [];
+            case 10:
+              _context.next = 12;
+              return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_2__["drawEditTagControls"])(tagControls, tagsList, place);
 
-              if (place.tags) {
-                place.tags.map(function (tag) {
-                  array.push(tag.id);
-                });
-              }
+            case 12:
+              toggleModal();
 
-              tagElements = "";
-              allTags.map(function (tag) {
-                var enabled = array.includes(tag.id) ? "true" : "false";
-                tagElements += "<button class='tag-button' data-id=" + tag.id + " data-enabled=" + enabled + ">" + tag.label + "</button>";
-              });
-              document.querySelector("div.tags").innerHTML = "<label>Tags</label>" + tagElements;
-              buttons = document.querySelectorAll("div.tags > button.tag-button");
-
-              _toConsumableArray(buttons).map(function (button) {
-                if (button.dataset.enabled === "true") {
-                  button.style.borderColor = "green";
-                } else {
-                  button.style.borderColor = "#000";
-                }
-
-                button.addEventListener("click", function () {
-                  console.log("click");
-
-                  if (button.dataset.enabled === "false") {
-                    button.setAttribute("data-enabled", "true");
-                    button.style.borderColor = "green";
-                  } else {
-                    button.setAttribute("data-enabled", "false");
-                    button.style.borderColor = "#000";
-                  }
-                });
-              });
-
-            case 17:
+            case 13:
             case "end":
               return _context.stop();
           }

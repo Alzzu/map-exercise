@@ -37,8 +37,11 @@
                     <label for="hours">Open hours</label>
                     <input class="modal-input" type="text" name="hours">
                 </div>
-                <div class="item tags">
+                <div class="item">
+                    <div class="tags"></div>
+                    <div class="tagControls"></div>
                 </div>
+                
                 
 
                 <div class="controls">

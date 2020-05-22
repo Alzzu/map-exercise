@@ -63,6 +63,14 @@ html body {
   padding: 0 0.7em;
 }
 
+.modal .modal-content .item .tags {
+  display: inline-block;
+}
+
+.modal .modal-content .item .tagControls {
+  display: inline-block;
+}
+
 .modal .modal-content .controls {
   display: flex;
   flex-direction: row;

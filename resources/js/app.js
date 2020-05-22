@@ -1,6 +1,6 @@
 import { initMap, refreshMarkers } from "./maps.js";
 import { getPlaces, postPlace, getPlace, updatePlace, getTags } from "./api.js";
-import { drawTagControls } from "./helpers.js";
+import { drawTagControls, drawTagList } from "./helpers.js";
 
 let marker = "";
 const addModal = document.querySelector(".modal");
@@ -29,37 +29,10 @@ const app = async () => {
         );
 
         const tagsList = document.querySelector("div.tags");
+        const tagControls = document.querySelector("div.tagControls");
 
-        const tags = await getTags();
-        let tagElements = "";
-        tags.map(tag => {
-            tagElements +=
-                "<button class='tag-button' data-id=" +
-                tag.id +
-                " data-enabled='false'>" +
-                tag.label +
-                "</button>";
-        });
-
-        tagsList.innerHTML = "<label>Tags</label>" + tagElements;
-
-        drawTagControls(tagsList);
-
-        const buttons = document.querySelectorAll(
-            "div.tags > button.tag-button"
-        );
-
-        [...buttons].map(button => {
-            button.addEventListener("click", () => {
-                if (button.dataset.enabled === "false") {
-                    button.setAttribute("data-enabled", "true");
-                    button.style.borderColor = "green";
-                } else {
-                    button.setAttribute("data-enabled", "false");
-                    button.style.borderColor = "#000";
-                }
-            });
-        });
+        await drawTagList(tagsList);
+        await drawTagControls(tagControls, tagsList);
 
         fields[0].value = "";
         fields[1].value = "";

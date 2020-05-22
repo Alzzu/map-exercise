@@ -1,5 +1,7 @@
 import { getTags } from "./api.js";
 
+import { drawEditTagControls, drawEditTagList } from "./helpers.js";
+
 let map2;
 let markers = [];
 
@@ -42,8 +44,6 @@ const addMarker = (location, map, places) => {
                     .querySelector(".addModal")
                     .setAttribute("data-method", "edit");
 
-                toggleModal();
-
                 const fields = document.querySelectorAll(
                     "div.addModal > div.modal-content > .item > input"
                 );
@@ -52,54 +52,13 @@ const addMarker = (location, map, places) => {
                 fields[1].value = place.description;
                 fields[2].value = place.coordinates;
                 fields[3].value = place.hours;
+                const tagsList = document.querySelector("div.tags");
+                const tagControls = document.querySelector("div.tagControls");
 
-                const allTags = await getTags();
+                await drawEditTagList(tagsList, place);
+                await drawEditTagControls(tagControls, tagsList, place);
 
-                const array = [];
-                if (place.tags) {
-                    place.tags.map(tag => {
-                        array.push(tag.id);
-                    });
-                }
-
-                let tagElements = "";
-                allTags.map(tag => {
-                    const enabled = array.includes(tag.id) ? "true" : "false";
-                    tagElements +=
-                        "<button class='tag-button' data-id=" +
-                        tag.id +
-                        " data-enabled=" +
-                        enabled +
-                        ">" +
-                        tag.label +
-                        "</button>";
-                });
-
-                document.querySelector("div.tags").innerHTML =
-                    "<label>Tags</label>" + tagElements;
-
-                const buttons = document.querySelectorAll(
-                    "div.tags > button.tag-button"
-                );
-
-                [...buttons].map(button => {
-                    if (button.dataset.enabled === "true") {
-                        button.style.borderColor = "green";
-                    } else {
-                        button.style.borderColor = "#000";
-                    }
-
-                    button.addEventListener("click", () => {
-                        console.log("click");
-                        if (button.dataset.enabled === "false") {
-                            button.setAttribute("data-enabled", "true");
-                            button.style.borderColor = "green";
-                        } else {
-                            button.setAttribute("data-enabled", "false");
-                            button.style.borderColor = "#000";
-                        }
-                    });
-                });
+                toggleModal();
             });
     });
 
