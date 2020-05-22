@@ -72,6 +72,8 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
 
         $place->update($validated);
+        $tags = $request->tags;
+        $tag = $place->tags()->sync($tags);
 
         return response()->json($place, 200);
     }

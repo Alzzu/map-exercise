@@ -108,10 +108,11 @@ export const getTags = async () => {
         getTagsRequest.open("GET", "api/tags");
         getTagsRequest.onload = () => {
             if (getTagsRequest.status === 200) {
-                resolve(getTagsRequest.responseText);
+                resolve(JSON.parse(getTagsRequest.responseText));
             } else {
                 reject(getTagsRequest.status());
             }
         };
+        getTagsRequest.send();
     });
 };

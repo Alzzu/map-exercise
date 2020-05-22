@@ -44,6 +44,8 @@
                     <label for="hours">Open hours</label>
                     <input type="text" name="hours">
                 </div>
+                <div class="item tags">
+                </div>
 
                 <div class="controls">
                     <button class="addSubmit send-button">Submit</button>
