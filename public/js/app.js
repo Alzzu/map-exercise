@@ -1213,7 +1213,6 @@ var app = /*#__PURE__*/function () {
 
                     case 2:
                       request = _context2.sent;
-                      console.log("this", request);
 
                       if (openCheckbox.checked) {
                         openPlaces = request.places.filter(function (place) {
@@ -1234,7 +1233,7 @@ var app = /*#__PURE__*/function () {
                         Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(request);
                       }
 
-                    case 5:
+                    case 4:
                     case "end":
                       return _context2.stop();
                   }
@@ -1690,7 +1689,6 @@ var initMap = function initMap(items) {
     },
     zoom: 8
   });
-  console.log(items);
   refreshMarkers(items);
   return map2;
 };
@@ -1712,7 +1710,7 @@ var addMarker = function addMarker(location, map, places) {
     var times = place.hours.split("-");
     var firstTime = moment(times[0], "hh:mm");
     var secondTime = moment(times[1], "hh:mm");
-    var open = moment(currentTime, "hh:mm").isBetween(firstTime, secondTime) ? "Open" : "Closed";
+    var open = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_2__["isPlaceOpen"])(place.hours) ? "Open" : "Closed";
     var tags = "";
     place.tags.map(function (tag) {
       tags += "<span>" + tag.label + " </span>";
@@ -1755,14 +1753,11 @@ var addMarker = function addMarker(location, map, places) {
 };
 
 var refreshMarkers = function refreshMarkers(places) {
-  console.log("asd");
   if (markers.length != 0) markers.map(function (marker) {
     return marker.setMap(null);
   });
   markers = [];
-  console.log("refresh", places);
   places.coordinates.map(function (item) {
-    console.log("adding marker");
     addMarker(item, map2, places.places);
   });
 };

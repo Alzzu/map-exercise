@@ -1,6 +1,10 @@
 import { getTags } from "./api.js";
 
-import { drawEditTagControls, drawEditTagList } from "./helpers.js";
+import {
+    drawEditTagControls,
+    drawEditTagList,
+    isPlaceOpen
+} from "./helpers.js";
 
 let map2;
 let markers = [];
@@ -10,7 +14,6 @@ export const initMap = items => {
         center: { lat: 60.995339758930285, lng: 24.467076726810678 },
         zoom: 8
     });
-    console.log(items);
 
     refreshMarkers(items);
 
@@ -32,12 +35,7 @@ const addMarker = (location, map, places) => {
         const firstTime = moment(times[0], "hh:mm");
         const secondTime = moment(times[1], "hh:mm");
 
-        const open = moment(currentTime, "hh:mm").isBetween(
-            firstTime,
-            secondTime
-        )
-            ? "Open"
-            : "Closed";
+        const open = isPlaceOpen(place.hours) ? "Open" : "Closed";
 
         let tags = "";
         place.tags.map(tag => {
@@ -87,13 +85,10 @@ const addMarker = (location, map, places) => {
 };
 
 export const refreshMarkers = places => {
-    console.log("asd");
     if (markers.length != 0) markers.map(marker => marker.setMap(null));
     markers = [];
-    console.log("refresh", places);
 
     places.coordinates.map(item => {
-        console.log("adding marker");
         addMarker(item, map2, places.places);
     });
 };

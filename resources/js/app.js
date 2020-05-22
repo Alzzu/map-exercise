@@ -21,7 +21,7 @@ const app = async () => {
     const openCheckbox = document.querySelector(".open");
     openCheckbox.addEventListener("change", async () => {
         const request = await getPlaces();
-        console.log("this", request);
+
         if (openCheckbox.checked) {
             const openPlaces = request.places.filter(place =>
                 isPlaceOpen(place.hours)
