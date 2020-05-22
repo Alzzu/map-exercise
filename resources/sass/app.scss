@@ -42,8 +42,22 @@ html {
             label {
                 display: block;
             }
-            input {
+            .modal-input {
                 display: block;
+                border-radius: 0.4em;
+                border: 1px solid #a7a7a7;
+                font-size: 1em;
+                padding: 0.2em;
+            }
+
+            .newtag-input {
+                display: inline-block;
+                width: 7em;
+                background: #fff;
+                border: 3px solid #000;
+                border-radius: 1em;
+                margin: 0.2em;
+                padding: 0 0.7em;
             }
         }
 
@@ -76,6 +90,21 @@ button.tag-button {
     background: #fff;
     border: 3px solid #000;
     border-radius: 0.5em;
+    margin: 0.2em;
+
+    &:hover {
+        background: rgb(197, 197, 197);
+    }
+
+    &:focus {
+        border-color: rgb(46, 85, 255);
+    }
+}
+
+button.add-tag-button {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 1em;
     margin: 0.2em;
 
     &:hover {

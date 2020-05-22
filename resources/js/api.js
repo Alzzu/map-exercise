@@ -116,3 +116,26 @@ export const getTags = async () => {
         getTagsRequest.send();
     });
 };
+
+export const postTag = async data => {
+    console.log(data);
+    return new Promise((resolve, reject) => {
+        const postTagRequest = new XMLHttpRequest();
+        postTagRequest.open("POST", "api/tags");
+        postTagRequest.setRequestHeader(
+            "X-CSRF-TOKEN",
+            document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content")
+        );
+        postTagRequest.setRequestHeader("Content-Type", "application/json");
+        postTagRequest.onload = () => {
+            if (postTagRequest.status === 200) {
+                resolve(true);
+            } else {
+                reject(false);
+            }
+        };
+        postTagRequest.send(JSON.stringify(data));
+    });
+};

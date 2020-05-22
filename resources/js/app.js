@@ -1,5 +1,6 @@
 import { initMap, refreshMarkers } from "./maps.js";
 import { getPlaces, postPlace, getPlace, updatePlace, getTags } from "./api.js";
+import { drawTagControls } from "./helpers.js";
 
 let marker = "";
 const addModal = document.querySelector(".modal");
@@ -42,6 +43,8 @@ const app = async () => {
 
         tagsList.innerHTML = "<label>Tags</label>" + tagElements;
 
+        drawTagControls(tagsList);
+
         const buttons = document.querySelectorAll(
             "div.tags > button.tag-button"
         );
@@ -62,11 +65,16 @@ const app = async () => {
         fields[1].value = "";
         fields[3].value = "";
 
-        toggleAddModal();
+        toggleModal();
 
         const coordinatesField = (document.querySelector(
             'input[name="coordinates"]'
         ).value = latLng);
+    });
+
+    document.querySelector(".close-button").addEventListener("click", () => {
+        if (marker != "") marker.setMap(null);
+        toggleModal();
     });
 
     document
@@ -98,7 +106,7 @@ const app = async () => {
 
             if (method === "add") {
                 if (await postPlace(values)) {
-                    toggleAddModal();
+                    toggleModal();
 
                     if (marker != "") marker.setMap(null);
                     const places = await getPlaces();
@@ -112,7 +120,7 @@ const app = async () => {
                     .getAttribute("data-id");
 
                 if (await updatePlace(id, values)) {
-                    toggleAddModal();
+                    toggleModal();
 
                     const places = await getPlaces();
                     refreshMarkers(places);

@@ -26,16 +26,8 @@ class TagController extends Controller
 
     public function store(Request $request)
     {
-
-        $validated = $request->validate([
-            'title' => 'required|string|min:3|max:100',
-            'description' => 'required|string|min:3|max:500',
-            'coordinates' => 'required|string|min:3|max:255',
-            'hours' => 'required|string|min:3|max:255',
-        ]);
-
-        $place = Place::create($validated);
-        return response()->json($place, 200);
+        $tag = Tag::create($request->all());
+        return response()->json($tag, 200);
     }
 
     /**

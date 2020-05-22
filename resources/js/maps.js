@@ -42,7 +42,7 @@ const addMarker = (location, map, places) => {
                     .querySelector(".addModal")
                     .setAttribute("data-method", "edit");
 
-                toggleAddModal();
+                toggleModal();
 
                 const fields = document.querySelectorAll(
                     "div.addModal > div.modal-content > .item > input"

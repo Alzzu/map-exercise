@@ -842,7 +842,7 @@ try {
 /*!*****************************!*\
   !*** ./resources/js/api.js ***!
   \*****************************/
-/*! exports provided: getPlaces, postPlace, updatePlace, getPlace, deletePlace, getTags */
+/*! exports provided: getPlaces, postPlace, updatePlace, getPlace, deletePlace, getTags, postTag */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -853,6 +853,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPlace", function() { return getPlace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePlace", function() { return deletePlace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTags", function() { return getTags; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postTag", function() { return postTag; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -1083,6 +1084,42 @@ var getTags = /*#__PURE__*/function () {
     return _ref6.apply(this, arguments);
   };
 }();
+var postTag = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(data) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            console.log(data);
+            return _context7.abrupt("return", new Promise(function (resolve, reject) {
+              var postTagRequest = new XMLHttpRequest();
+              postTagRequest.open("POST", "api/tags");
+              postTagRequest.setRequestHeader("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]').getAttribute("content"));
+              postTagRequest.setRequestHeader("Content-Type", "application/json");
+
+              postTagRequest.onload = function () {
+                if (postTagRequest.status === 200) {
+                  resolve(true);
+                } else {
+                  reject(false);
+                }
+              };
+
+              postTagRequest.send(JSON.stringify(data));
+            }));
+
+          case 2:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7);
+  }));
+
+  return function postTag(_x6) {
+    return _ref7.apply(this, arguments);
+  };
+}();
 
 /***/ }),
 
@@ -1099,6 +1136,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _maps_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./maps.js */ "./resources/js/maps.js");
 /* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./api.js */ "./resources/js/api.js");
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers.js */ "./resources/js/helpers.js");
 
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1118,6 +1156,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -1187,6 +1226,7 @@ var app = /*#__PURE__*/function () {
                           tagElements += "<button class='tag-button' data-id=" + tag.id + " data-enabled='false'>" + tag.label + "</button>";
                         });
                         tagsList.innerHTML = "<label>Tags</label>" + tagElements;
+                        Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagControls"])(tagsList);
                         buttons = document.querySelectorAll("div.tags > button.tag-button");
 
                         _toConsumableArray(buttons).map(function (button) {
@@ -1204,10 +1244,10 @@ var app = /*#__PURE__*/function () {
                         fields[0].value = "";
                         fields[1].value = "";
                         fields[3].value = "";
-                        toggleAddModal();
+                        toggleModal();
                         coordinatesField = document.querySelector('input[name="coordinates"]').value = latLng;
 
-                      case 19:
+                      case 20:
                       case "end":
                         return _context2.stop();
                     }
@@ -1219,6 +1259,10 @@ var app = /*#__PURE__*/function () {
                 return _ref3.apply(this, arguments);
               };
             }());
+            document.querySelector(".close-button").addEventListener("click", function () {
+              if (marker != "") marker.setMap(null);
+              toggleModal();
+            });
             document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
               var _values;
 
@@ -1253,7 +1297,7 @@ var app = /*#__PURE__*/function () {
                         break;
                       }
 
-                      toggleAddModal();
+                      toggleModal();
                       if (marker != "") marker.setMap(null);
                       _context3.next = 14;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
@@ -1287,7 +1331,7 @@ var app = /*#__PURE__*/function () {
                         break;
                       }
 
-                      toggleAddModal();
+                      toggleModal();
                       _context3.next = 29;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
@@ -1311,7 +1355,7 @@ var app = /*#__PURE__*/function () {
               }, _callee3);
             })));
 
-          case 9:
+          case 10:
           case "end":
             return _context4.stop();
         }
@@ -1327,6 +1371,41 @@ var app = /*#__PURE__*/function () {
 document.addEventListener("DOMContentLoaded", app);
 
 __webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
+
+/***/ }),
+
+/***/ "./resources/js/helpers.js":
+/*!*********************************!*\
+  !*** ./resources/js/helpers.js ***!
+  \*********************************/
+/*! exports provided: drawTagControls */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawTagControls", function() { return drawTagControls; });
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api.js */ "./resources/js/api.js");
+
+var drawTagControls = function drawTagControls(element) {
+  element.innerHTML += "<button class='add-tag-button'>+</button><input class='newtag-input' name='newtag' type='text' style='display: none;'>";
+  var addTagButton = document.querySelector(".add-tag-button");
+  addTagButton.addEventListener("click", function () {
+    var newTagInput = document.querySelector(".newtag-input");
+    addTagButton.style.display = "none";
+    newTagInput.style.display = "inline-block";
+    newTagInput.focus();
+
+    newTagInput.onkeydown = function (e) {
+      if (e.key === "Enter") {
+        Object(_api_js__WEBPACK_IMPORTED_MODULE_0__["postTag"])({
+          label: newTagInput.value
+        });
+        addTagButton.style.display = "inline-block";
+        newTagInput.style.display = "none";
+      }
+    };
+  });
+};
 
 /***/ }),
 
@@ -1400,7 +1479,7 @@ var addMarker = function addMarker(location, map, places) {
           switch (_context.prev = _context.next) {
             case 0:
               document.querySelector(".addModal").setAttribute("data-method", "edit");
-              toggleAddModal();
+              toggleModal();
               fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
               fields[0].value = place.title;
               fields[1].value = place.description;

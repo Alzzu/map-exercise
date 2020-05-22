@@ -45,8 +45,22 @@ html body {
   display: block;
 }
 
-.modal .modal-content .item input {
+.modal .modal-content .item .modal-input {
   display: block;
+  border-radius: 0.4em;
+  border: 1px solid #a7a7a7;
+  font-size: 1em;
+  padding: 0.2em;
+}
+
+.modal .modal-content .item .newtag-input {
+  display: inline-block;
+  width: 7em;
+  background: #fff;
+  border: 3px solid #000;
+  border-radius: 1em;
+  margin: 0.2em;
+  padding: 0 0.7em;
 }
 
 .modal .modal-content .controls {
@@ -84,6 +98,21 @@ button.tag-button:hover {
 }
 
 button.tag-button:focus {
+  border-color: #2e55ff;
+}
+
+button.add-tag-button {
+  background: #fff;
+  border: 3px solid #000;
+  border-radius: 1em;
+  margin: 0.2em;
+}
+
+button.add-tag-button:hover {
+  background: #c5c5c5;
+}
+
+button.add-tag-button:focus {
   border-color: #2e55ff;
 }
 
