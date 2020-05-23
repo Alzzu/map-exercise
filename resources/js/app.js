@@ -18,31 +18,76 @@ const app = async () => {
 
     //filters
 
-    const openCheckbox = document.querySelector(".open");
-    openCheckbox.addEventListener("change", async () => {
-        const request = await getPlaces();
+    const performSearch = data => {
+        const openCheckbox = document.querySelector(".open");
+        const searchInput = document.querySelector(".search");
+        if (searchInput.value != "" && openCheckbox.checked) {
+            const searchFilter = data.places.filter(place =>
+                place.title.toLowerCase().includes(searchInput.value)
+            );
 
-        if (openCheckbox.checked) {
-            const openPlaces = request.places.filter(place =>
+            const filtered = searchFilter.filter(place =>
                 isPlaceOpen(place.hours)
             );
 
             let array = [];
-            openPlaces.map(openPlace => {
-                array.push(openPlace.id);
+            filtered.map(place => {
+                array.push(place.id);
             });
 
-            const openCoordinates = request.coordinates.filter(coordinate =>
+            const coordinates = data.coordinates.filter(coordinate =>
                 array.includes(parseInt(coordinate.id))
             );
 
-            refreshMarkers({
-                places: openPlaces,
-                coordinates: openCoordinates
+            refreshMarkers({ places: filtered, coordinates });
+        } else if (searchInput.value != "" && !openCheckbox.checked) {
+            const filtered = data.places.filter(place =>
+                place.title.toLowerCase().includes(searchInput.value)
+            );
+
+            let array = [];
+            filtered.map(place => {
+                array.push(place.id);
             });
+
+            const coordinates = data.coordinates.filter(coordinate =>
+                array.includes(parseInt(coordinate.id))
+            );
+
+            refreshMarkers({ places: filtered, coordinates });
+        } else if (searchInput.value == "" && openCheckbox.checked) {
+            const filtered = data.places.filter(place =>
+                isPlaceOpen(place.hours)
+            );
+
+            let array = [];
+            filtered.map(place => {
+                array.push(place.id);
+            });
+
+            const coordinates = data.coordinates.filter(coordinate =>
+                array.includes(parseInt(coordinate.id))
+            );
+
+            refreshMarkers({ places: filtered, coordinates });
         } else {
-            refreshMarkers(request);
+            refreshMarkers(data);
         }
+    };
+
+    const searchInput = document.querySelector(".search");
+    searchInput.addEventListener("focus", async () => {
+        const request = await getPlaces();
+        searchInput.addEventListener("input", () => {
+            performSearch(request);
+        });
+    });
+
+    const openCheckbox = document.querySelector(".open");
+    openCheckbox.addEventListener("change", async () => {
+        const request = await getPlaces();
+
+        performSearch(request);
     });
 
     google.maps.event.addListener(map, "click", async e => {

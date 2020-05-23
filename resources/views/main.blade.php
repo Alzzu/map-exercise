@@ -17,9 +17,14 @@
 </head>
 <body>
     <div id="map"></div>
-    <div>
+    <div class="content">
         <div class="filters">
-            Open<input class="open" type="checkbox" name="Open">
+            <span>
+                <div>Search</div><input class="search" type="text">
+            </span>
+            <span>
+                Open<input class="open" type="checkbox" name="Open">
+            </span>
         </div>
         <div class="place"><h2>Select place from the map!</h2></div>
         <button class="testbutton">test button</button>

@@ -11,6 +11,18 @@ html {
     height: 30em;
 }
 
+.content {
+    margin: 2em 10em;
+
+    .filters {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        .open {
+        }
+    }
+}
+
 .modal {
     display: none;
     position: fixed;
