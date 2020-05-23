@@ -23,7 +23,9 @@ const app = async () => {
         const searchInput = document.querySelector(".search");
         if (searchInput.value != "" && openCheckbox.checked) {
             const searchFilter = data.places.filter(place =>
-                place.title.toLowerCase().includes(searchInput.value)
+                place.title
+                    .toLowerCase()
+                    .includes(searchInput.value.toLowerCase())
             );
 
             const filtered = searchFilter.filter(place =>
@@ -42,7 +44,9 @@ const app = async () => {
             refreshMarkers({ places: filtered, coordinates });
         } else if (searchInput.value != "" && !openCheckbox.checked) {
             const filtered = data.places.filter(place =>
-                place.title.toLowerCase().includes(searchInput.value)
+                place.title
+                    .toLowerCase()
+                    .includes(searchInput.value.toLowerCase())
             );
 
             let array = [];

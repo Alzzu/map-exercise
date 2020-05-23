@@ -1207,7 +1207,7 @@ var app = /*#__PURE__*/function () {
 
               if (searchInput.value != "" && openCheckbox.checked) {
                 var searchFilter = data.places.filter(function (place) {
-                  return place.title.toLowerCase().includes(searchInput.value);
+                  return place.title.toLowerCase().includes(searchInput.value.toLowerCase());
                 });
                 var filtered = searchFilter.filter(function (place) {
                   return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["isPlaceOpen"])(place.hours);
@@ -1225,7 +1225,7 @@ var app = /*#__PURE__*/function () {
                 });
               } else if (searchInput.value != "" && !openCheckbox.checked) {
                 var _filtered = data.places.filter(function (place) {
-                  return place.title.toLowerCase().includes(searchInput.value);
+                  return place.title.toLowerCase().includes(searchInput.value.toLowerCase());
                 });
 
                 var _array = [];
