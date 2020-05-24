@@ -1,5 +1,5 @@
 import { initMap, refreshMarkers } from "./maps.js";
-import { getPlaces, postPlace, getPlace, updatePlace, getTags } from "./api.js";
+import { getPlaces, postPlace, updatePlace } from "./api.js";
 import {
     drawTagControls,
     drawTagList,
@@ -14,6 +14,8 @@ const app = async () => {
     const items = await getPlaces();
     const map = await initMap(items);
 
+    //filters
+
     const tagFiltersSelected = () => {
         const tagFilter = document.querySelectorAll(".tagFilter > .tag-button");
         let tagList = [];
@@ -26,8 +28,6 @@ const app = async () => {
 
         return tagList;
     };
-
-    //filters
 
     const filterCoordinates = (data, filtered) => {
         let array = [];
@@ -137,7 +137,6 @@ const app = async () => {
             openCheckbox.checked &&
             tagFiltersSelected().length === 0
         ) {
-            console.log("this");
             const filtered = data.places.filter(place =>
                 isPlaceOpen(place.hours)
             );
@@ -217,7 +216,6 @@ const app = async () => {
             const tags = [...tagButtons]
                 .filter(tagButton => tagButton.dataset.enabled === "true")
                 .map(tagButton => parseInt(tagButton.dataset.id));
-            console.log("enabled tags", tags);
 
             const values = {
                 [fields[0].name]: fields[0].value,
@@ -254,8 +252,6 @@ const app = async () => {
                 } else {
                     console.log("failure to update");
                 }
-
-                console.log("edit");
             }
         });
 };

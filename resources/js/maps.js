@@ -1,4 +1,4 @@
-import { getPlaces, getTags, deletePlace } from "./api.js";
+import { getPlaces, deletePlace } from "./api.js";
 
 import {
     drawEditTagControls,

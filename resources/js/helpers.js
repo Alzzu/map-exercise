@@ -1,4 +1,4 @@
-import { getTags, postTag, getPlaces } from "./api.js";
+import { getTags, postTag } from "./api.js";
 
 export const drawTagControls = (element, tagList) => {
     element.innerHTML =
@@ -42,7 +42,6 @@ export const drawTagList = async element => {
 
     [...buttons].map(button => {
         button.addEventListener("click", () => {
-            console.log("click");
             if (button.dataset.enabled === "false") {
                 button.setAttribute("data-enabled", "true");
                 button.style.borderColor = "green";
@@ -144,7 +143,6 @@ export const drawEditTagList = async (element, place) => {
         }
 
         button.addEventListener("click", () => {
-            console.log("click");
             if (button.dataset.enabled === "false") {
                 button.setAttribute("data-enabled", "true");
                 button.style.borderColor = "green";
