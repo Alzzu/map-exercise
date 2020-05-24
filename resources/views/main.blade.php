@@ -20,7 +20,7 @@
     <div class="content">
         <div class="filters">
             <span>
-                <div class="title">Search</div><input class="search" type="text">
+                <div class="title">Search</div><input class="search search-input" type="text">
             </span>
             <div>
                 <div class="title">
@@ -47,23 +47,21 @@
                     <input class="modal-input" type="text" name="description">
                 </div>
                 <div class="item">
-                    <label for="coordinates">Coodinates</label>
+                    <label for="coordinates">Coordinates</label>
                     <input class="modal-input" type="text" name="coordinates">
                 </div>
                 <div class="item">
                     <label for="hours">Open hours</label>
-                    <input class="modal-input" type="text" name="hours">
+                    <input class="modal-input" type="text" name="hours" placeholder="09:00-21:00">
                 </div>
                 <div class="item">
                     <div class="tags"></div>
                     <div class="tagControls"></div>
                 </div>
-                
-                
 
                 <div class="controls">
                     <button class="addSubmit good-button button">Submit</button>
-                    <button class="close-button button">close</button>
+                    <button class="close-button button">Close</button>
                 </div>
             </div>
         </div>

@@ -18,8 +18,6 @@ html {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-        .open {
-        }
         .title {
             font-weight: bold;
             margin-bottom: 0.5em;
@@ -177,4 +175,12 @@ button.add-tag-button {
     &:focus {
         border-color: rgb(46, 85, 255);
     }
+}
+
+.search-input {
+    display: block;
+    border-radius: 0.4em;
+    border: 1px solid #a7a7a7;
+    font-size: 1em;
+    padding: 0.2em;
 }
