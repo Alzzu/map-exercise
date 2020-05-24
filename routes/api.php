@@ -19,7 +19,7 @@ Route::get('places/{id}', 'PlaceController@show');
 Route::post('places', 'PlaceController@store');
 Route::put('places/{id}', 'PlaceController@update');
 Route::patch('places/{id}', 'PlaceController@update');
-Route::delete('places/{id}', 'PlaceController@delete');
+Route::delete('places/{id}', 'PlaceController@destroy');
 
 Route::get('tags', 'TagController@index');
 Route::post('tags', 'TagController@store');

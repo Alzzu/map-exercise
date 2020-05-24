@@ -9,13 +9,6 @@ const app = async () => {
     const items = await getPlaces();
     const map = await initMap(items);
 
-    document
-        .querySelector(".testbutton")
-        .addEventListener("click", async () => {
-            const places = await getPlaces();
-            refreshMarkers(places);
-        });
-
     //filters
 
     const performSearch = data => {

@@ -1034,9 +1034,11 @@ var deletePlace = /*#__PURE__*/function () {
                 if (deletePlaceRequest.status === 200) {
                   resolve(deletePlaceRequest.responseText);
                 } else {
-                  reject(deletePlaceRequest.status());
+                  reject(deletePlaceRequest.status);
                 }
               };
+
+              deletePlaceRequest.send();
             }));
 
           case 1:
@@ -1164,43 +1166,24 @@ var marker = "";
 var addModal = document.querySelector(".modal");
 
 var app = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
     var items, map, performSearch, searchInput, openCheckbox;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context6.next = 2;
+            _context5.next = 2;
             return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
           case 2:
-            items = _context6.sent;
-            _context6.next = 5;
+            items = _context5.sent;
+            _context5.next = 5;
             return Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["initMap"])(items);
 
           case 5:
-            map = _context6.sent;
-            document.querySelector(".testbutton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-              var places;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-                while (1) {
-                  switch (_context.prev = _context.next) {
-                    case 0:
-                      _context.next = 2;
-                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+            map = _context5.sent;
 
-                    case 2:
-                      places = _context.sent;
-                      Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-
-                    case 4:
-                    case "end":
-                      return _context.stop();
-                  }
-                }
-              }, _callee);
-            }))); //filters
-
+            //filters
             performSearch = function performSearch(data) {
               var openCheckbox = document.querySelector(".open");
               var searchInput = document.querySelector(".search");
@@ -1267,7 +1250,30 @@ var app = /*#__PURE__*/function () {
             };
 
             searchInput = document.querySelector(".search");
-            searchInput.addEventListener("focus", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+            searchInput.addEventListener("focus", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+              var request;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                  switch (_context.prev = _context.next) {
+                    case 0:
+                      _context.next = 2;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+                    case 2:
+                      request = _context.sent;
+                      searchInput.addEventListener("input", function () {
+                        performSearch(request);
+                      });
+
+                    case 4:
+                    case "end":
+                      return _context.stop();
+                  }
+                }
+              }, _callee);
+            })));
+            openCheckbox = document.querySelector(".open");
+            openCheckbox.addEventListener("change", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
               var request;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
                 while (1) {
@@ -1278,9 +1284,7 @@ var app = /*#__PURE__*/function () {
 
                     case 2:
                       request = _context2.sent;
-                      searchInput.addEventListener("input", function () {
-                        performSearch(request);
-                      });
+                      performSearch(request);
 
                     case 4:
                     case "end":
@@ -1289,33 +1293,12 @@ var app = /*#__PURE__*/function () {
                 }
               }, _callee2);
             })));
-            openCheckbox = document.querySelector(".open");
-            openCheckbox.addEventListener("change", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-              var request;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-                while (1) {
-                  switch (_context3.prev = _context3.next) {
-                    case 0:
-                      _context3.next = 2;
-                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
-
-                    case 2:
-                      request = _context3.sent;
-                      performSearch(request);
-
-                    case 4:
-                    case "end":
-                      return _context3.stop();
-                  }
-                }
-              }, _callee3);
-            })));
             google.maps.event.addListener(map, "click", /*#__PURE__*/function () {
-              var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(e) {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
                 var latLng, fields, tagsList, tagControls, coordinatesField;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
                   while (1) {
-                    switch (_context4.prev = _context4.next) {
+                    switch (_context3.prev = _context3.next) {
                       case 0:
                         latLng = e.latLng.lat() + ", " + e.latLng.lng();
                         if (marker != "") marker.setMap(null);
@@ -1327,11 +1310,11 @@ var app = /*#__PURE__*/function () {
                         fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                         tagsList = document.querySelector("div.tags");
                         tagControls = document.querySelector("div.tagControls");
-                        _context4.next = 9;
+                        _context3.next = 9;
                         return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagList"])(tagsList);
 
                       case 9:
-                        _context4.next = 11;
+                        _context3.next = 11;
                         return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagControls"])(tagControls, tagsList);
 
                       case 11:
@@ -1343,28 +1326,28 @@ var app = /*#__PURE__*/function () {
 
                       case 16:
                       case "end":
-                        return _context4.stop();
+                        return _context3.stop();
                     }
                   }
-                }, _callee4);
+                }, _callee3);
               }));
 
               return function (_x) {
-                return _ref5.apply(this, arguments);
+                return _ref4.apply(this, arguments);
               };
             }());
             document.querySelector(".close-button").addEventListener("click", function () {
               if (marker != "") marker.setMap(null);
               toggleModal();
             });
-            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
               var _values;
 
               var fields, tagButtons, tags, values, method, places, id, _places;
 
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
                 while (1) {
-                  switch (_context5.prev = _context5.next) {
+                  switch (_context4.prev = _context4.next) {
                     case 0:
                       fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                       tagButtons = document.querySelectorAll("div.tags > button.tag-button");
@@ -1378,61 +1361,61 @@ var app = /*#__PURE__*/function () {
                       method = document.querySelector(".addModal").getAttribute("data-method");
 
                       if (!(method === "add")) {
-                        _context5.next = 21;
+                        _context4.next = 21;
                         break;
                       }
 
-                      _context5.next = 9;
+                      _context4.next = 9;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values);
 
                     case 9:
-                      if (!_context5.sent) {
-                        _context5.next = 18;
+                      if (!_context4.sent) {
+                        _context4.next = 18;
                         break;
                       }
 
                       toggleModal();
                       if (marker != "") marker.setMap(null);
-                      _context5.next = 14;
+                      _context4.next = 14;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
                     case 14:
-                      places = _context5.sent;
+                      places = _context4.sent;
                       Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-                      _context5.next = 19;
+                      _context4.next = 19;
                       break;
 
                     case 18:
                       console.log("failure");
 
                     case 19:
-                      _context5.next = 35;
+                      _context4.next = 35;
                       break;
 
                     case 21:
                       if (!(method === "edit")) {
-                        _context5.next = 35;
+                        _context4.next = 35;
                         break;
                       }
 
                       id = document.querySelector(".addModal").getAttribute("data-id");
-                      _context5.next = 25;
+                      _context4.next = 25;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["updatePlace"])(id, values);
 
                     case 25:
-                      if (!_context5.sent) {
-                        _context5.next = 33;
+                      if (!_context4.sent) {
+                        _context4.next = 33;
                         break;
                       }
 
                       toggleModal();
-                      _context5.next = 29;
+                      _context4.next = 29;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
                     case 29:
-                      _places = _context5.sent;
+                      _places = _context4.sent;
                       Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(_places);
-                      _context5.next = 34;
+                      _context4.next = 34;
                       break;
 
                     case 33:
@@ -1443,18 +1426,18 @@ var app = /*#__PURE__*/function () {
 
                     case 35:
                     case "end":
-                      return _context5.stop();
+                      return _context4.stop();
                   }
                 }
-              }, _callee5);
+              }, _callee4);
             })));
 
-          case 15:
+          case 14:
           case "end":
-            return _context6.stop();
+            return _context5.stop();
         }
       }
-    }, _callee6);
+    }, _callee5);
   }));
 
   return function app() {
@@ -1780,12 +1763,12 @@ var addMarker = function addMarker(location, map, places) {
     var times = place.hours.split("-");
     var firstTime = moment(times[0], "hh:mm");
     var secondTime = moment(times[1], "hh:mm");
-    var open = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_2__["isPlaceOpen"])(place.hours) ? "Open" : "Closed";
+    var open = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_2__["isPlaceOpen"])(place.hours) ? "Place is open right now!" : "Place is closed";
     var tags = "";
     place.tags.map(function (tag) {
       tags += "<span>" + tag.label + " </span>";
     });
-    document.querySelector(".place").innerHTML = "<h2>" + place.title + "</h2><div>" + tags + "</div><div>" + open + "</div><div>" + place.description + "</div><div>" + place.hours + "</div><button class='editButton'>Edit</button>";
+    document.querySelector(".place").innerHTML = "<h2 class='placeTitle'>" + place.title + "</h2><div class='placeTags'>" + tags + "</div><div class='placeDescription'>" + place.description + "</div><div class='placeHours'>" + place.hours + "</div><div class='placeIsOpen'>" + open + "</div><div class='placeControls'><button class='editButton button'>Edit</button><button class='deleteButton danger-button button'>Delete</button></div>";
     document.querySelector(".addModal").setAttribute("data-id", place.id);
     document.querySelector(".editButton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var fields, tagsList, tagControls;
@@ -1817,6 +1800,30 @@ var addMarker = function addMarker(location, map, places) {
           }
         }
       }, _callee);
+    })));
+    document.querySelector(".deleteButton").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var places;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["deletePlace"])(place.id);
+
+            case 2:
+              _context2.next = 4;
+              return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["getPlaces"])();
+
+            case 4:
+              places = _context2.sent;
+              refreshMarkers(places);
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
     })));
   });
   markers.push(marker);

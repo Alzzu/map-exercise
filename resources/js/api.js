@@ -96,9 +96,10 @@ export const deletePlace = async id => {
             if (deletePlaceRequest.status === 200) {
                 resolve(deletePlaceRequest.responseText);
             } else {
-                reject(deletePlaceRequest.status());
+                reject(deletePlaceRequest.status);
             }
         };
+        deletePlaceRequest.send();
     });
 };
 

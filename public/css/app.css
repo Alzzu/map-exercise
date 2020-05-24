@@ -21,6 +21,25 @@ html body {
   justify-content: space-evenly;
 }
 
+.content .filters .title {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.content .place .placeTitle {
+  margin: 1em 0 0 0;
+}
+
+.content .place .placeTags {
+  color: #404040;
+  font-size: 0.9em;
+  margin-bottom: 1em;
+}
+
+.content .place .placeControls {
+  margin-top: 1em;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -91,6 +110,31 @@ html body {
   margin: 1em;
   font-size: 1em;
   width: 5em;
+}
+
+.button {
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 0.5em;
+  margin: 0.3em;
+  width: 5em;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 0.4em;
+}
+
+.button:hover {
+  background: #b4b4b4;
+}
+
+.good-button {
+  border-color: #0ee82a;
+  background: #a8ff9e;
+}
+
+.danger-button {
+  border-color: #ff3636;
+  background: #ffd6d6;
 }
 
 button.send-button {

@@ -84,8 +84,11 @@ class PlaceController extends Controller
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Place $place)
+    public function destroy($id)
     {
+
+        $place = Place::findOrFail($id);
+        $place->tags()->detach();
         $place->delete();
 
         return 204;

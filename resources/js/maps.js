@@ -1,4 +1,4 @@
-import { getTags } from "./api.js";
+import { getPlaces, getTags, deletePlace } from "./api.js";
 
 import {
     drawEditTagControls,
@@ -35,24 +35,26 @@ const addMarker = (location, map, places) => {
         const firstTime = moment(times[0], "hh:mm");
         const secondTime = moment(times[1], "hh:mm");
 
-        const open = isPlaceOpen(place.hours) ? "Open" : "Closed";
+        const open = isPlaceOpen(place.hours)
+            ? "Place is open right now!"
+            : "Place is closed";
 
         let tags = "";
         place.tags.map(tag => {
             tags += "<span>" + tag.label + " </span>";
         });
         document.querySelector(".place").innerHTML =
-            "<h2>" +
+            "<h2 class='placeTitle'>" +
             place.title +
-            "</h2><div>" +
+            "</h2><div class='placeTags'>" +
             tags +
-            "</div><div>" +
-            open +
-            "</div><div>" +
+            "</div><div class='placeDescription'>" +
             place.description +
-            "</div><div>" +
+            "</div><div class='placeHours'>" +
             place.hours +
-            "</div><button class='editButton'>Edit</button>";
+            "</div><div class='placeIsOpen'>" +
+            open +
+            "</div><div class='placeControls'><button class='editButton button'>Edit</button><button class='deleteButton danger-button button'>Delete</button></div>";
 
         document.querySelector(".addModal").setAttribute("data-id", place.id);
 
@@ -78,6 +80,15 @@ const addMarker = (location, map, places) => {
                 await drawEditTagControls(tagControls, tagsList, place);
 
                 toggleModal();
+            });
+
+        document
+            .querySelector(".deleteButton")
+            .addEventListener("click", async () => {
+                await deletePlace(place.id);
+
+                const places = await getPlaces();
+                refreshMarkers(places);
             });
     });
 

@@ -20,14 +20,18 @@
     <div class="content">
         <div class="filters">
             <span>
-                <div>Search</div><input class="search" type="text">
+                <div class="title">Search</div><input class="search" type="text">
             </span>
-            <span>
-                Open<input class="open" type="checkbox" name="Open">
-            </span>
+            <div>
+                <div class="title">
+                    Filters
+                </div>
+                <span>
+                    <input class="open" type="checkbox" name="Open">Open places
+                </span>
+            </div>
         </div>
         <div class="place"><h2>Select place from the map!</h2></div>
-        <button class="testbutton">test button</button>
 
         <div class="addModal modal" style="display: none;" data-method="">
             <div class="modal-content">
@@ -55,8 +59,8 @@
                 
 
                 <div class="controls">
-                    <button class="addSubmit send-button">Submit</button>
-                    <button class="close-button">close</button>
+                    <button class="addSubmit good-button button">Submit</button>
+                    <button class="close-button button">close</button>
                 </div>
             </div>
         </div>

@@ -20,6 +20,26 @@ html {
         justify-content: space-evenly;
         .open {
         }
+        .title {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+    }
+
+    .place {
+        .placeTitle {
+            margin: 1em 0 0 0;
+        }
+
+        .placeTags {
+            color: #404040;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+        }
+
+        .placeControls {
+            margin-top: 1em;
+        }
     }
 }
 
@@ -90,6 +110,31 @@ html {
             }
         }
     }
+}
+
+.button {
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 0.5em;
+    margin: 0.3em;
+    width: 5em;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 0.4em;
+
+    &:hover {
+        background: #b4b4b4;
+    }
+}
+
+.good-button {
+    border-color: #0ee82a;
+    background: #a8ff9e;
+}
+
+.danger-button {
+    border-color: #ff3636;
+    background: #ffd6d6;
 }
 
 button.send-button {
