@@ -1166,114 +1166,177 @@ var marker = "";
 var addModal = document.querySelector(".modal");
 
 var app = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-    var items, map, performSearch, searchInput, openCheckbox;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+    var items, map, tagFiltersSelected, filterCoordinates, performSearch, tagFilter, searchInput, openCheckbox;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context5.next = 2;
+            _context6.next = 2;
             return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
           case 2:
-            items = _context5.sent;
-            _context5.next = 5;
+            items = _context6.sent;
+            _context6.next = 5;
             return Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["initMap"])(items);
 
           case 5:
-            map = _context5.sent;
+            map = _context6.sent;
 
-            //filters
+            tagFiltersSelected = function tagFiltersSelected() {
+              var tagFilter = document.querySelectorAll(".tagFilter > .tag-button");
+              var tagList = [];
+
+              _toConsumableArray(tagFilter).map(function (tag) {
+                if (tag.dataset.enabled == "true") {
+                  tagList.push(parseInt(tag.dataset.id));
+                }
+              });
+
+              return tagList;
+            }; //filters
+
+
+            filterCoordinates = function filterCoordinates(data, filtered) {
+              var array = [];
+              filtered.map(function (place) {
+                array.push(place.id);
+              });
+              var coordinates = data.coordinates.filter(function (coordinate) {
+                return array.includes(parseInt(coordinate.id));
+              });
+              return coordinates;
+            };
+
             performSearch = function performSearch(data) {
               var openCheckbox = document.querySelector(".open");
               var searchInput = document.querySelector(".search");
 
-              if (searchInput.value != "" && openCheckbox.checked) {
+              if (searchInput.value != "" && openCheckbox.checked && tagFiltersSelected().length != 0) {
                 var searchFilter = data.places.filter(function (place) {
                   return place.title.toLowerCase().includes(searchInput.value.toLowerCase());
                 });
-                var filtered = searchFilter.filter(function (place) {
+                var isOpenFilter = searchFilter.filter(function (place) {
                   return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["isPlaceOpen"])(place.hours);
                 });
-                var array = [];
-                filtered.map(function (place) {
-                  array.push(place.id);
+                var tags = tagFiltersSelected();
+                var filtered = isOpenFilter.filter(function (place) {
+                  return place.tags.some(function (_ref2) {
+                    var id = _ref2.id;
+                    return tags.includes(id);
+                  });
                 });
-                var coordinates = data.coordinates.filter(function (coordinate) {
-                  return array.includes(parseInt(coordinate.id));
-                });
+                var coordinates = filterCoordinates(data, filtered);
                 Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])({
                   places: filtered,
                   coordinates: coordinates
                 });
-              } else if (searchInput.value != "" && !openCheckbox.checked) {
-                var _filtered = data.places.filter(function (place) {
+              } else if (searchInput.value != "" && openCheckbox.checked && tagFiltersSelected().length === 0) {
+                var _searchFilter = data.places.filter(function (place) {
                   return place.title.toLowerCase().includes(searchInput.value.toLowerCase());
                 });
 
-                var _array = [];
-
-                _filtered.map(function (place) {
-                  _array.push(place.id);
+                var _filtered = _searchFilter.filter(function (place) {
+                  return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["isPlaceOpen"])(place.hours);
                 });
 
-                var _coordinates = data.coordinates.filter(function (coordinate) {
-                  return _array.includes(parseInt(coordinate.id));
-                });
+                var _coordinates = filterCoordinates(data, _filtered);
 
                 Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])({
                   places: _filtered,
                   coordinates: _coordinates
                 });
-              } else if (searchInput.value == "" && openCheckbox.checked) {
+              } else if (tagFiltersSelected().length != 0 && !openCheckbox.checked && searchInput.value === "") {
+                var _tags = tagFiltersSelected();
+
                 var _filtered2 = data.places.filter(function (place) {
-                  return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["isPlaceOpen"])(place.hours);
+                  return place.tags.some(function (_ref3) {
+                    var id = _ref3.id;
+                    return _tags.includes(id);
+                  });
                 });
 
-                var _array2 = [];
-
-                _filtered2.map(function (place) {
-                  _array2.push(place.id);
-                });
-
-                var _coordinates2 = data.coordinates.filter(function (coordinate) {
-                  return _array2.includes(parseInt(coordinate.id));
-                });
+                var _coordinates2 = filterCoordinates(data, _filtered2);
 
                 Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])({
                   places: _filtered2,
                   coordinates: _coordinates2
+                });
+              } else if (searchInput.value != "" && !openCheckbox.checked && tagFiltersSelected().length != 0) {
+                var _searchFilter2 = data.places.filter(function (place) {
+                  return place.title.toLowerCase().includes(searchInput.value.toLowerCase());
+                });
+
+                var _tags2 = tagFiltersSelected();
+
+                var _filtered3 = _searchFilter2.filter(function (place) {
+                  return place.tags.some(function (_ref4) {
+                    var id = _ref4.id;
+                    return _tags2.includes(id);
+                  });
+                });
+
+                var _coordinates3 = filterCoordinates(data, _filtered3);
+
+                Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])({
+                  places: _filtered3,
+                  coordinates: _coordinates3
+                });
+              } else if (searchInput.value != "" && !openCheckbox.checked && tagFiltersSelected().length === 0) {
+                var _filtered4 = data.places.filter(function (place) {
+                  return place.title.toLowerCase().includes(searchInput.value.toLowerCase());
+                });
+
+                var _coordinates4 = filterCoordinates(data, _filtered4);
+
+                Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])({
+                  places: _filtered4,
+                  coordinates: _coordinates4
+                });
+              } else if (searchInput.value == "" && openCheckbox.checked && tagFiltersSelected().length === 0) {
+                console.log("this");
+
+                var _filtered5 = data.places.filter(function (place) {
+                  return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["isPlaceOpen"])(place.hours);
+                });
+
+                var _coordinates5 = filterCoordinates(data, _filtered5);
+
+                Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])({
+                  places: _filtered5,
+                  coordinates: _coordinates5
                 });
               } else {
                 Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(data);
               }
             };
 
-            searchInput = document.querySelector(".search");
-            searchInput.addEventListener("focus", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-              var request;
+            tagFilter = document.querySelector(".tagFilter");
+            _context6.next = 12;
+            return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawFilterTagList"])(tagFilter, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      _context.next = 2;
+                      _context.t0 = performSearch;
+                      _context.next = 3;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
-                    case 2:
-                      request = _context.sent;
-                      searchInput.addEventListener("input", function () {
-                        performSearch(request);
-                      });
+                    case 3:
+                      _context.t1 = _context.sent;
+                      return _context.abrupt("return", (0, _context.t0)(_context.t1));
 
-                    case 4:
+                    case 5:
                     case "end":
                       return _context.stop();
                   }
                 }
               }, _callee);
             })));
-            openCheckbox = document.querySelector(".open");
-            openCheckbox.addEventListener("change", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+
+          case 12:
+            searchInput = document.querySelector(".search");
+            searchInput.addEventListener("focus", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
               var request;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
                 while (1) {
@@ -1284,7 +1347,9 @@ var app = /*#__PURE__*/function () {
 
                     case 2:
                       request = _context2.sent;
-                      performSearch(request);
+                      searchInput.addEventListener("input", function () {
+                        performSearch(request);
+                      });
 
                     case 4:
                     case "end":
@@ -1293,12 +1358,34 @@ var app = /*#__PURE__*/function () {
                 }
               }, _callee2);
             })));
+            openCheckbox = document.querySelector(".open");
+            openCheckbox.addEventListener("change", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+              var request;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                while (1) {
+                  switch (_context3.prev = _context3.next) {
+                    case 0:
+                      _context3.next = 2;
+                      return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
+
+                    case 2:
+                      request = _context3.sent;
+                      tagFiltersSelected();
+                      performSearch(request);
+
+                    case 5:
+                    case "end":
+                      return _context3.stop();
+                  }
+                }
+              }, _callee3);
+            })));
             google.maps.event.addListener(map, "click", /*#__PURE__*/function () {
-              var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
+              var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(e) {
                 var latLng, fields, tagsList, tagControls, coordinatesField;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
                   while (1) {
-                    switch (_context3.prev = _context3.next) {
+                    switch (_context4.prev = _context4.next) {
                       case 0:
                         latLng = e.latLng.lat() + ", " + e.latLng.lng();
                         if (marker != "") marker.setMap(null);
@@ -1310,11 +1397,11 @@ var app = /*#__PURE__*/function () {
                         fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                         tagsList = document.querySelector("div.tags");
                         tagControls = document.querySelector("div.tagControls");
-                        _context3.next = 9;
+                        _context4.next = 9;
                         return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagList"])(tagsList);
 
                       case 9:
-                        _context3.next = 11;
+                        _context4.next = 11;
                         return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_3__["drawTagControls"])(tagControls, tagsList);
 
                       case 11:
@@ -1326,28 +1413,28 @@ var app = /*#__PURE__*/function () {
 
                       case 16:
                       case "end":
-                        return _context3.stop();
+                        return _context4.stop();
                     }
                   }
-                }, _callee3);
+                }, _callee4);
               }));
 
               return function (_x) {
-                return _ref4.apply(this, arguments);
+                return _ref8.apply(this, arguments);
               };
             }());
             document.querySelector(".close-button").addEventListener("click", function () {
               if (marker != "") marker.setMap(null);
               toggleModal();
             });
-            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+            document.querySelector("button.addSubmit").addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
               var _values;
 
               var fields, tagButtons, tags, values, method, places, id, _places;
 
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
                 while (1) {
-                  switch (_context4.prev = _context4.next) {
+                  switch (_context5.prev = _context5.next) {
                     case 0:
                       fields = document.querySelectorAll("div.addModal > div.modal-content > .item > input");
                       tagButtons = document.querySelectorAll("div.tags > button.tag-button");
@@ -1361,61 +1448,61 @@ var app = /*#__PURE__*/function () {
                       method = document.querySelector(".addModal").getAttribute("data-method");
 
                       if (!(method === "add")) {
-                        _context4.next = 21;
+                        _context5.next = 21;
                         break;
                       }
 
-                      _context4.next = 9;
+                      _context5.next = 9;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["postPlace"])(values);
 
                     case 9:
-                      if (!_context4.sent) {
-                        _context4.next = 18;
+                      if (!_context5.sent) {
+                        _context5.next = 18;
                         break;
                       }
 
                       toggleModal();
                       if (marker != "") marker.setMap(null);
-                      _context4.next = 14;
+                      _context5.next = 14;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
                     case 14:
-                      places = _context4.sent;
+                      places = _context5.sent;
                       Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(places);
-                      _context4.next = 19;
+                      _context5.next = 19;
                       break;
 
                     case 18:
                       console.log("failure");
 
                     case 19:
-                      _context4.next = 35;
+                      _context5.next = 35;
                       break;
 
                     case 21:
                       if (!(method === "edit")) {
-                        _context4.next = 35;
+                        _context5.next = 35;
                         break;
                       }
 
                       id = document.querySelector(".addModal").getAttribute("data-id");
-                      _context4.next = 25;
+                      _context5.next = 25;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["updatePlace"])(id, values);
 
                     case 25:
-                      if (!_context4.sent) {
-                        _context4.next = 33;
+                      if (!_context5.sent) {
+                        _context5.next = 33;
                         break;
                       }
 
                       toggleModal();
-                      _context4.next = 29;
+                      _context5.next = 29;
                       return Object(_api_js__WEBPACK_IMPORTED_MODULE_2__["getPlaces"])();
 
                     case 29:
-                      _places = _context4.sent;
+                      _places = _context5.sent;
                       Object(_maps_js__WEBPACK_IMPORTED_MODULE_1__["refreshMarkers"])(_places);
-                      _context4.next = 34;
+                      _context5.next = 34;
                       break;
 
                     case 33:
@@ -1426,18 +1513,18 @@ var app = /*#__PURE__*/function () {
 
                     case 35:
                     case "end":
-                      return _context4.stop();
+                      return _context5.stop();
                   }
                 }
-              }, _callee4);
+              }, _callee5);
             })));
 
-          case 14:
+          case 19:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5);
+    }, _callee6);
   }));
 
   return function app() {
@@ -1455,13 +1542,14 @@ __webpack_require__(/*! ./modal.js */ "./resources/js/modal.js");
 /*!*********************************!*\
   !*** ./resources/js/helpers.js ***!
   \*********************************/
-/*! exports provided: drawTagControls, drawTagList, drawEditTagControls, drawEditTagList, isPlaceOpen */
+/*! exports provided: drawTagControls, drawTagList, drawFilterTagList, drawEditTagControls, drawEditTagList, isPlaceOpen */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawTagControls", function() { return drawTagControls; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawTagList", function() { return drawTagList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawFilterTagList", function() { return drawFilterTagList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawEditTagControls", function() { return drawEditTagControls; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawEditTagList", function() { return drawEditTagList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlaceOpen", function() { return isPlaceOpen; });
@@ -1583,6 +1671,51 @@ var drawTagList = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
+var drawFilterTagList = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(element, callback) {
+    var tags, tagElements, buttons;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["getTags"])();
+
+          case 2:
+            tags = _context3.sent;
+            tagElements = "";
+            tags.map(function (tag) {
+              tagElements += "<button class='tag-button' data-id=" + tag.id + " data-enabled='false'>" + tag.label + "</button>";
+            });
+            element.innerHTML = tagElements;
+            buttons = element.querySelectorAll(".tag-button");
+
+            _toConsumableArray(buttons).map(function (button) {
+              button.addEventListener("click", function () {
+                if (button.dataset.enabled === "false") {
+                  button.setAttribute("data-enabled", "true");
+                  button.style.borderColor = "green";
+                } else {
+                  button.setAttribute("data-enabled", "false");
+                  button.style.borderColor = "#000";
+                }
+
+                callback();
+              });
+            }, false);
+
+          case 8:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function drawFilterTagList(_x3, _x4) {
+    return _ref3.apply(this, arguments);
+  };
+}();
 var drawEditTagControls = function drawEditTagControls(element, tagList, place) {
   element.innerHTML = "<button class='add-tag-button'>+</button><input class='newtag-input' name='newtag' type='text' style='display: none;'>";
   var addTagButton = element.querySelector(".add-tag-button");
@@ -1593,27 +1726,27 @@ var drawEditTagControls = function drawEditTagControls(element, tagList, place) 
     newTagInput.focus();
 
     newTagInput.onkeydown = /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(e) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(e.key === "Enter")) {
-                  _context3.next = 9;
+                  _context4.next = 9;
                   break;
                 }
 
-                _context3.next = 3;
+                _context4.next = 3;
                 return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["postTag"])({
                   label: newTagInput.value
                 });
 
               case 3:
-                _context3.next = 5;
+                _context4.next = 5;
                 return drawEditTagList(tagList, place);
 
               case 5:
-                _context3.next = 7;
+                _context4.next = 7;
                 return drawEditTagControls(element, tagList, place);
 
               case 7:
@@ -1622,30 +1755,30 @@ var drawEditTagControls = function drawEditTagControls(element, tagList, place) 
 
               case 9:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }));
 
-      return function (_x3) {
-        return _ref3.apply(this, arguments);
+      return function (_x5) {
+        return _ref4.apply(this, arguments);
       };
     }();
   });
 };
 var drawEditTagList = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(element, place) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(element, place) {
     var allTags, array, tagElements, buttons;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.next = 2;
+            _context5.next = 2;
             return Object(_api_js__WEBPACK_IMPORTED_MODULE_1__["getTags"])();
 
           case 2:
-            allTags = _context4.sent;
+            allTags = _context5.sent;
             array = [];
 
             if (place.tags) {
@@ -1684,14 +1817,14 @@ var drawEditTagList = /*#__PURE__*/function () {
 
           case 10:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5);
   }));
 
-  return function drawEditTagList(_x4, _x5) {
-    return _ref4.apply(this, arguments);
+  return function drawEditTagList(_x6, _x7) {
+    return _ref5.apply(this, arguments);
   };
 }();
 var isPlaceOpen = function isPlaceOpen(hours) {

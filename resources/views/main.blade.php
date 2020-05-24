@@ -26,9 +26,12 @@
                 <div class="title">
                     Filters
                 </div>
-                <span>
+                <div>
                     <input class="open" type="checkbox" name="Open">Open places
-                </span>
+                </div>
+                <div class="tagFilter"></div>
+
+                
             </div>
         </div>
         <div class="place"><h2>Select place from the map!</h2></div>

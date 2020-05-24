@@ -1,6 +1,11 @@
 import { initMap, refreshMarkers } from "./maps.js";
 import { getPlaces, postPlace, getPlace, updatePlace, getTags } from "./api.js";
-import { drawTagControls, drawTagList, isPlaceOpen } from "./helpers.js";
+import {
+    drawTagControls,
+    drawTagList,
+    drawFilterTagList,
+    isPlaceOpen
+} from "./helpers.js";
 
 let marker = "";
 const addModal = document.querySelector(".modal");
@@ -9,12 +14,65 @@ const app = async () => {
     const items = await getPlaces();
     const map = await initMap(items);
 
+    const tagFiltersSelected = () => {
+        const tagFilter = document.querySelectorAll(".tagFilter > .tag-button");
+        let tagList = [];
+
+        [...tagFilter].map(tag => {
+            if (tag.dataset.enabled == "true") {
+                tagList.push(parseInt(tag.dataset.id));
+            }
+        });
+
+        return tagList;
+    };
+
     //filters
+
+    const filterCoordinates = (data, filtered) => {
+        let array = [];
+        filtered.map(place => {
+            array.push(place.id);
+        });
+
+        const coordinates = data.coordinates.filter(coordinate =>
+            array.includes(parseInt(coordinate.id))
+        );
+
+        return coordinates;
+    };
 
     const performSearch = data => {
         const openCheckbox = document.querySelector(".open");
         const searchInput = document.querySelector(".search");
-        if (searchInput.value != "" && openCheckbox.checked) {
+        if (
+            searchInput.value != "" &&
+            openCheckbox.checked &&
+            tagFiltersSelected().length != 0
+        ) {
+            const searchFilter = data.places.filter(place =>
+                place.title
+                    .toLowerCase()
+                    .includes(searchInput.value.toLowerCase())
+            );
+
+            const isOpenFilter = searchFilter.filter(place =>
+                isPlaceOpen(place.hours)
+            );
+
+            const tags = tagFiltersSelected();
+            const filtered = isOpenFilter.filter(place =>
+                place.tags.some(({ id }) => tags.includes(id))
+            );
+
+            const coordinates = filterCoordinates(data, filtered);
+
+            refreshMarkers({ places: filtered, coordinates });
+        } else if (
+            searchInput.value != "" &&
+            openCheckbox.checked &&
+            tagFiltersSelected().length === 0
+        ) {
             const searchFilter = data.places.filter(place =>
                 place.title
                     .toLowerCase()
@@ -25,52 +83,77 @@ const app = async () => {
                 isPlaceOpen(place.hours)
             );
 
-            let array = [];
-            filtered.map(place => {
-                array.push(place.id);
-            });
-
-            const coordinates = data.coordinates.filter(coordinate =>
-                array.includes(parseInt(coordinate.id))
-            );
+            const coordinates = filterCoordinates(data, filtered);
 
             refreshMarkers({ places: filtered, coordinates });
-        } else if (searchInput.value != "" && !openCheckbox.checked) {
+        } else if (
+            tagFiltersSelected().length != 0 &&
+            !openCheckbox.checked &&
+            searchInput.value === ""
+        ) {
+            const tags = tagFiltersSelected();
+            const filtered = data.places.filter(place =>
+                place.tags.some(({ id }) => tags.includes(id))
+            );
+
+            const coordinates = filterCoordinates(data, filtered);
+
+            refreshMarkers({ places: filtered, coordinates });
+        } else if (
+            searchInput.value != "" &&
+            !openCheckbox.checked &&
+            tagFiltersSelected().length != 0
+        ) {
+            const searchFilter = data.places.filter(place =>
+                place.title
+                    .toLowerCase()
+                    .includes(searchInput.value.toLowerCase())
+            );
+
+            const tags = tagFiltersSelected();
+            const filtered = searchFilter.filter(place =>
+                place.tags.some(({ id }) => tags.includes(id))
+            );
+
+            const coordinates = filterCoordinates(data, filtered);
+
+            refreshMarkers({ places: filtered, coordinates });
+        } else if (
+            searchInput.value != "" &&
+            !openCheckbox.checked &&
+            tagFiltersSelected().length === 0
+        ) {
             const filtered = data.places.filter(place =>
                 place.title
                     .toLowerCase()
                     .includes(searchInput.value.toLowerCase())
             );
 
-            let array = [];
-            filtered.map(place => {
-                array.push(place.id);
-            });
-
-            const coordinates = data.coordinates.filter(coordinate =>
-                array.includes(parseInt(coordinate.id))
-            );
+            const coordinates = filterCoordinates(data, filtered);
 
             refreshMarkers({ places: filtered, coordinates });
-        } else if (searchInput.value == "" && openCheckbox.checked) {
+        } else if (
+            searchInput.value == "" &&
+            openCheckbox.checked &&
+            tagFiltersSelected().length === 0
+        ) {
+            console.log("this");
             const filtered = data.places.filter(place =>
                 isPlaceOpen(place.hours)
             );
 
-            let array = [];
-            filtered.map(place => {
-                array.push(place.id);
-            });
-
-            const coordinates = data.coordinates.filter(coordinate =>
-                array.includes(parseInt(coordinate.id))
-            );
+            const coordinates = filterCoordinates(data, filtered);
 
             refreshMarkers({ places: filtered, coordinates });
         } else {
             refreshMarkers(data);
         }
     };
+
+    const tagFilter = document.querySelector(".tagFilter");
+    await drawFilterTagList(tagFilter, async () =>
+        performSearch(await getPlaces())
+    );
 
     const searchInput = document.querySelector(".search");
     searchInput.addEventListener("focus", async () => {
@@ -83,7 +166,7 @@ const app = async () => {
     const openCheckbox = document.querySelector(".open");
     openCheckbox.addEventListener("change", async () => {
         const request = await getPlaces();
-
+        tagFiltersSelected();
         performSearch(request);
     });
 

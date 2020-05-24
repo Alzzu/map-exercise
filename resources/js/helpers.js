@@ -1,4 +1,4 @@
-import { getTags, postTag } from "./api.js";
+import { getTags, postTag, getPlaces } from "./api.js";
 
 export const drawTagControls = (element, tagList) => {
     element.innerHTML =
@@ -50,6 +50,37 @@ export const drawTagList = async element => {
                 button.setAttribute("data-enabled", "false");
                 button.style.borderColor = "#000";
             }
+        });
+    }, false);
+};
+
+export const drawFilterTagList = async (element, callback) => {
+    const tags = await getTags();
+    let tagElements = "";
+    tags.map(tag => {
+        tagElements +=
+            "<button class='tag-button' data-id=" +
+            tag.id +
+            " data-enabled='false'>" +
+            tag.label +
+            "</button>";
+    });
+
+    element.innerHTML = tagElements;
+
+    const buttons = element.querySelectorAll(".tag-button");
+
+    [...buttons].map(button => {
+        button.addEventListener("click", () => {
+            if (button.dataset.enabled === "false") {
+                button.setAttribute("data-enabled", "true");
+                button.style.borderColor = "green";
+            } else {
+                button.setAttribute("data-enabled", "false");
+                button.style.borderColor = "#000";
+            }
+
+            callback();
         });
     }, false);
 };
