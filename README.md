@@ -24,3 +24,5 @@ Migrate database
 If php is installed on local machine you can use but i recommend using [Homestead](https://laravel.com/docs/7.x/homestead) for local development
 
 `php artisan serve`
+
+[For more information](https://laravel.com/docs/7.x/installation)
